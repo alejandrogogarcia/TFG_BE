@@ -1,9 +1,9 @@
-package es.udc.tfg.fapptura.model.client;
+package es.udc.tfg.app.model.client;
 
 import java.util.List;
 
-import es.udc.tfg.fapptura.model.genericDao.GenericDao;
-import es.udc.tfg.fapptura.util.exceptions.InstanceNotFoundException;
+import es.udc.tfg.app.model.genericDao.GenericDao;
+import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
 
 public interface ClientDao extends GenericDao<Client, Long>{
 	

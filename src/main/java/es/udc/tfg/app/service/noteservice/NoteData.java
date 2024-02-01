@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.service.noteservice;
+package es.udc.tfg.app.service.noteservice;
 
 public class NoteData {
 	

@@ -1,10 +1,10 @@
-package es.udc.tfg.fapptura.model.user;
+package es.udc.tfg.app.model.user;
 
 import java.util.List;
 
-import es.udc.tfg.fapptura.model.genericDao.GenericDao;
-import es.udc.tfg.fapptura.util.enums.UserRole;
-import es.udc.tfg.fapptura.util.exceptions.InstanceNotFoundException;
+import es.udc.tfg.app.model.genericDao.GenericDao;
+import es.udc.tfg.app.util.enums.UserRole;
+import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
 
 public interface UserDao extends GenericDao<User, Long>{
 	

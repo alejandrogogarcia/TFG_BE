@@ -1,11 +1,11 @@
-package es.udc.tfg.fapptura.model.category;
+package es.udc.tfg.app.model.category;
 
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import es.udc.tfg.fapptura.model.genericDao.GenericDaoImpl;
+import es.udc.tfg.app.model.genericDao.GenericDaoImpl;
 
 @Repository
 @Transactional

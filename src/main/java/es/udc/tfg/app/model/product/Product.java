@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.model.product;
+package es.udc.tfg.app.model.product;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -6,27 +6,26 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import es.udc.tfg.fapptura.model.category.Category;
-import es.udc.tfg.fapptura.model.noteline.Noteline;
-import es.udc.tfg.fapptura.model.user.User;
+import es.udc.tfg.app.model.category.Category;
+import es.udc.tfg.app.model.noteline.Noteline;
+import es.udc.tfg.app.model.user.User;
 
 @Entity
 @Table(name = "products")
 public class Product {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	private Long id;
 	
-	private String reference;
+	@Id
+	private Long reference;
 	
 	private String name;
 	
@@ -71,8 +70,8 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(String reference, String name, String description, String image, String data, Float price, Integer discount,
-			Integer stock, Calendar createDate, Category category, Product mainProduct, User creator) {
+	public Product(Long reference, String name, String description, String image, String data, Float price, Integer discount,
+			Integer stock, Category category, Product mainProduct, User creator) {
 		this.reference = reference;
 		this.name = name;
 		this.description = description;
@@ -81,7 +80,7 @@ public class Product {
 		this.price = price;
 		this.discount = discount;
 		this.stock = stock;
-		this.createDate = createDate;
+		this.createDate = Calendar.getInstance();
 		this.category = category;
 		this.mainProduct = mainProduct;
 		this.creator = creator;
@@ -89,19 +88,19 @@ public class Product {
 	
 	// ....... Getters & Setters ......./
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public String getReference() {
+//	public Long getId() {
+//		return id;
+//	}
+//
+//	public void setId(Long id) {
+//		this.id = id;
+//	}
+//	
+	public Long getReference() {
 		return reference;
 	}
 
-	public void setReference(String reference) {
+	public void setReference(Long reference) {
 		this.reference = reference;
 	}
 

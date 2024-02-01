@@ -1,10 +1,10 @@
-package es.udc.tfg.fapptura.test.service;
+package es.udc.tfg.app.test.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TfgFappturaApplicationTests {
+class TfgAppApplicationTests {
 
 	@Test
 	void contextLoads() {

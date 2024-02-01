@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.service.userservice;
+package es.udc.tfg.app.service.userservice;
 
 import java.util.Calendar;
 import java.util.List;
@@ -7,18 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import es.udc.tfg.fapptura.model.credentials.Credentials;
-import es.udc.tfg.fapptura.model.credentials.CredentialsDao;
-import es.udc.tfg.fapptura.model.user.User;
-import es.udc.tfg.fapptura.model.user.UserDao;
-import es.udc.tfg.fapptura.util.conversors.CalendarConversor;
-import es.udc.tfg.fapptura.util.conversors.LanguageConversor;
-import es.udc.tfg.fapptura.util.conversors.RoleConversor;
-import es.udc.tfg.fapptura.util.encrypt.PasswordEncrypter;
-import es.udc.tfg.fapptura.util.enums.Languages;
-import es.udc.tfg.fapptura.util.enums.UserRole;
-import es.udc.tfg.fapptura.util.exceptions.*;
-import es.udc.tfg.fapptura.util.validator.ValidatorProperties;
+import es.udc.tfg.app.model.credentials.Credentials;
+import es.udc.tfg.app.model.credentials.CredentialsDao;
+import es.udc.tfg.app.model.user.User;
+import es.udc.tfg.app.model.user.UserDao;
+import es.udc.tfg.app.util.conversors.CalendarConversor;
+import es.udc.tfg.app.util.conversors.LanguageConversor;
+import es.udc.tfg.app.util.conversors.RoleConversor;
+import es.udc.tfg.app.util.encrypt.PasswordEncrypter;
+import es.udc.tfg.app.util.enums.Languages;
+import es.udc.tfg.app.util.enums.UserRole;
+import es.udc.tfg.app.util.exceptions.*;
+import es.udc.tfg.app.util.validator.ValidatorProperties;
 
 @Transactional
 @Service

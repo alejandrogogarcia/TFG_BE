@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.model.category;
+package es.udc.tfg.app.model.category;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,8 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import es.udc.tfg.fapptura.model.product.Product;
-import es.udc.tfg.fapptura.model.user.User;
+import es.udc.tfg.app.model.product.Product;
+import es.udc.tfg.app.model.user.User;
 
 @Entity
 @Table(name = "categories")

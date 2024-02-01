@@ -1,13 +1,13 @@
-package es.udc.tfg.fapptura.util.validator;
+package es.udc.tfg.app.util.validator;
 
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import es.udc.tfg.fapptura.util.exceptions.InputValidationException;
+import es.udc.tfg.app.util.exceptions.InputValidationException;
 
 public class ValidatorProperties {
-	
+
 	public static void validateDni(String dni) throws InputValidationException {
 
 		String stringPattern = "^[0-9]{8}[a-zA-Z]{1}$";
@@ -19,20 +19,20 @@ public class ValidatorProperties {
 		}
 
 	}
-	
+
 	public static void validateEmail(String email) throws InputValidationException {
 
 		String stringPattern = "^[A-Za-z0-9+_.-]+@(.+)$";
 		Pattern regexPattern = Pattern.compile(stringPattern);
 		Matcher regexMatcher = regexPattern.matcher(email.toLowerCase());
 
-		if (email.length() > 80 || !regexMatcher.matches()) {			
+		if (email.length() > 80 || !regexMatcher.matches()) {
 			throw new InputValidationException(email,
 					"It must be less than 80 char and it must have valid email characters");
 		}
 
 	}
-	
+
 	public static void validatePassword(String pwd) throws InputValidationException {
 
 		if (pwd == null || pwd.length() < 6 || pwd.length() > 30) {
@@ -40,7 +40,7 @@ public class ValidatorProperties {
 		}
 
 	}
-	
+
 	public static void validateString(String string) throws InputValidationException {
 
 		if (string == null || string.length() < 1) {
@@ -48,17 +48,17 @@ public class ValidatorProperties {
 		}
 
 	}
-	
+
 	public static void validateCalendarPastDate(Calendar calendar) throws InputValidationException {
-			
-			Calendar now = Calendar.getInstance();
-			
-			if (calendar.after(now) || calendar == null ) {
-				throw new InputValidationException("Calendar", "Should be a past date");
-			}
-			
+
+		Calendar now = Calendar.getInstance();
+
+		if (calendar.after(now) || calendar == null) {
+			throw new InputValidationException("Calendar", "Should be a past date");
 		}
-	
+
+	}
+
 	public static void validatePostCode(Long postCode) throws InputValidationException {
 
 		if (postCode == null || postCode.toString().length() != 5) {
@@ -66,7 +66,7 @@ public class ValidatorProperties {
 		}
 
 	}
-	
+
 	public static void validatePhoneNumbre(Long phoneNumber) throws InputValidationException {
 
 		if (phoneNumber.toString().length() != 9) {
@@ -75,5 +75,20 @@ public class ValidatorProperties {
 
 	}
 
+	public static void validatePositiveInteger(Integer num) throws InputValidationException {
+
+		if (num < 0) {
+			throw new InputValidationException("Integer number value", " It cannot be null or less than 0");
+		}
+
+	}
+	
+	public static void validatePositiveFloat(Float num) throws InputValidationException {
+
+		if (num < 0) {
+			throw new InputValidationException("Long number value", " It cannot be null or less than 0");
+		}
+
+	}
 
 }

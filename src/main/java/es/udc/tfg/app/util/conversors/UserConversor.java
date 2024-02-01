@@ -1,12 +1,11 @@
-package es.udc.tfg.fapptura.rest.security;
+package es.udc.tfg.app.util.conversors;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import es.udc.tfg.fapptura.model.user.User;
-import es.udc.tfg.fapptura.rest.dtos.AuthenticatedUserDto;
-import es.udc.tfg.fapptura.rest.dtos.UserDto;
-import es.udc.tfg.fapptura.util.conversors.CalendarConversor;
+import es.udc.tfg.app.model.user.User;
+import es.udc.tfg.app.rest.dtos.AuthenticatedUserDto;
+import es.udc.tfg.app.rest.dtos.UserDto;
 
 public class UserConversor {
 	

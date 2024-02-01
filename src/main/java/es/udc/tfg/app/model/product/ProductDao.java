@@ -1,12 +1,12 @@
-package es.udc.tfg.fapptura.model.product;
+package es.udc.tfg.app.model.product;
 
 import java.util.List;
 
-import es.udc.tfg.fapptura.model.genericDao.GenericDao;
+import es.udc.tfg.app.model.genericDao.GenericDao;
 
 public interface ProductDao extends GenericDao<Product, Long> {
 	
-	public List<Product> findByReference(String reference);
+	//public Product findByReference(Long reference);
 	
 	public List<Product> findByName(String name);
 	

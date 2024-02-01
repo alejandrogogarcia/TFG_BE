@@ -1,8 +1,8 @@
-package es.udc.tfg.fapptura.model.genericDao;
+package es.udc.tfg.app.model.genericDao;
 
 import java.io.Serializable;
 
-import es.udc.tfg.fapptura.util.exceptions.InstanceNotFoundException;
+import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
  
 public interface GenericDao<E, PK extends Serializable> {
 

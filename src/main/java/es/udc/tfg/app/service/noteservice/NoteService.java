@@ -1,10 +1,10 @@
-package es.udc.tfg.fapptura.service.noteservice;
+package es.udc.tfg.app.service.noteservice;
 
 import java.util.List;
 
-import es.udc.tfg.fapptura.model.note.Note;
-import es.udc.tfg.fapptura.util.exceptions.InputValidationException;
-import es.udc.tfg.fapptura.util.exceptions.InstanceNotFoundException;
+import es.udc.tfg.app.model.note.Note;
+import es.udc.tfg.app.util.exceptions.InputValidationException;
+import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
 
 public interface NoteService{
 	

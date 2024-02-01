@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.rest.controller;
+package es.udc.tfg.app.rest.controller;
 
 import java.net.URI;
 import java.util.List;
@@ -15,21 +15,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import es.udc.tfg.fapptura.model.user.User;
-import es.udc.tfg.fapptura.rest.dtos.AuthenticatedUserDto;
-import es.udc.tfg.fapptura.rest.dtos.UserDto;
-import es.udc.tfg.fapptura.rest.security.JwtGenerator;
-import es.udc.tfg.fapptura.rest.security.JwtInfo;
-import es.udc.tfg.fapptura.rest.security.UserConversor;
-import es.udc.tfg.fapptura.service.userservice.LoginData;
-import es.udc.tfg.fapptura.service.userservice.PassChangeData;
-import es.udc.tfg.fapptura.service.userservice.RegisterData;
-import es.udc.tfg.fapptura.service.userservice.UserService;
-import es.udc.tfg.fapptura.util.exceptions.ConfirmPasswordNotMatchException;
-import es.udc.tfg.fapptura.util.exceptions.DuplicateInstanceException;
-import es.udc.tfg.fapptura.util.exceptions.IncorrectPasswordException;
-import es.udc.tfg.fapptura.util.exceptions.InputValidationException;
-import es.udc.tfg.fapptura.util.exceptions.InstanceNotFoundException;
+import es.udc.tfg.app.model.user.User;
+import es.udc.tfg.app.rest.dtos.AuthenticatedUserDto;
+import es.udc.tfg.app.rest.dtos.UserDto;
+import es.udc.tfg.app.rest.security.JwtGenerator;
+import es.udc.tfg.app.rest.security.JwtInfo;
+import es.udc.tfg.app.service.userservice.LoginData;
+import es.udc.tfg.app.service.userservice.PassChangeData;
+import es.udc.tfg.app.service.userservice.RegisterData;
+import es.udc.tfg.app.service.userservice.UserService;
+import es.udc.tfg.app.util.conversors.UserConversor;
+import es.udc.tfg.app.util.exceptions.ConfirmPasswordNotMatchException;
+import es.udc.tfg.app.util.exceptions.DuplicateInstanceException;
+import es.udc.tfg.app.util.exceptions.IncorrectPasswordException;
+import es.udc.tfg.app.util.exceptions.InputValidationException;
+import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -53,7 +53,7 @@ public class UserController {
 	}
 
 	@PostMapping("/users/create")
-	public ResponseEntity<AuthenticatedUserDto> signUp(@RequestBody RegisterData registerData)
+	public ResponseEntity<UserDto> createUser(@RequestBody RegisterData registerData)
 			throws InputValidationException, ConfirmPasswordNotMatchException, DuplicateInstanceException
 			 {
 
@@ -61,7 +61,7 @@ public class UserController {
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/").build().toUri();
 
-		return ResponseEntity.created(location).body(UserConversor.toAuthenticatedUserDto(generateToken(user), user));
+		return ResponseEntity.created(location).body(UserConversor.toUserDto(user));
 
 	}
 	

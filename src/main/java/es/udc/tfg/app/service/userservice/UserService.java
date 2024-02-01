@@ -1,12 +1,12 @@
-package es.udc.tfg.fapptura.service.userservice;
+package es.udc.tfg.app.service.userservice;
 
 import java.util.List;
 
-import es.udc.tfg.fapptura.model.user.User;
-import es.udc.tfg.fapptura.util.exceptions.DuplicateInstanceException;
-import es.udc.tfg.fapptura.util.exceptions.IncorrectPasswordException;
-import es.udc.tfg.fapptura.util.exceptions.InputValidationException;
-import es.udc.tfg.fapptura.util.exceptions.InstanceNotFoundException;
+import es.udc.tfg.app.model.user.User;
+import es.udc.tfg.app.util.exceptions.DuplicateInstanceException;
+import es.udc.tfg.app.util.exceptions.IncorrectPasswordException;
+import es.udc.tfg.app.util.exceptions.InputValidationException;
+import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
 
 public interface UserService {
 	

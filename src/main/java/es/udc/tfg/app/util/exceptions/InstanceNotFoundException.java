@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.util.exceptions;
+package es.udc.tfg.app.util.exceptions;
 
 @SuppressWarnings("serial")
 public class InstanceNotFoundException extends Exception {

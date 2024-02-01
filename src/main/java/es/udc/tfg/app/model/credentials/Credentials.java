@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.model.credentials;
+package es.udc.tfg.app.model.credentials;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -9,7 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import es.udc.tfg.fapptura.model.user.User;
+import es.udc.tfg.app.model.user.User;
 
 @Entity
 @Table(name = "credentials")

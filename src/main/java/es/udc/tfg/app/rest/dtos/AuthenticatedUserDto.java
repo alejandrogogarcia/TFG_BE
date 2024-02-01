@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.rest.dtos;
+package es.udc.tfg.app.rest.dtos;
 
 public class AuthenticatedUserDto {
 	

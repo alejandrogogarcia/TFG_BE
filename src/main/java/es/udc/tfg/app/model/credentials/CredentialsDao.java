@@ -1,9 +1,9 @@
-package es.udc.tfg.fapptura.model.credentials;
+package es.udc.tfg.app.model.credentials;
 
 import java.util.List;
 
-import es.udc.tfg.fapptura.model.genericDao.GenericDao;
-import es.udc.tfg.fapptura.util.exceptions.InstanceNotFoundException;
+import es.udc.tfg.app.model.genericDao.GenericDao;
+import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
 
 public interface CredentialsDao extends GenericDao<Credentials, Long> {
 	

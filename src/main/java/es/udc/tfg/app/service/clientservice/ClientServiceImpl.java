@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.service.clientservice;
+package es.udc.tfg.app.service.clientservice;
 
 import java.util.Calendar;
 import java.util.List;
@@ -6,14 +6,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import es.udc.tfg.fapptura.model.client.Client;
-import es.udc.tfg.fapptura.model.client.ClientDao;
-import es.udc.tfg.fapptura.model.user.User;
-import es.udc.tfg.fapptura.model.user.UserDao;
-import es.udc.tfg.fapptura.util.exceptions.DuplicateInstanceException;
-import es.udc.tfg.fapptura.util.exceptions.InputValidationException;
-import es.udc.tfg.fapptura.util.exceptions.InstanceNotFoundException;
-import es.udc.tfg.fapptura.util.validator.ValidatorProperties;
+import es.udc.tfg.app.model.client.Client;
+import es.udc.tfg.app.model.client.ClientDao;
+import es.udc.tfg.app.model.user.User;
+import es.udc.tfg.app.model.user.UserDao;
+import es.udc.tfg.app.util.exceptions.DuplicateInstanceException;
+import es.udc.tfg.app.util.exceptions.InputValidationException;
+import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
+import es.udc.tfg.app.util.validator.ValidatorProperties;
 
 @Transactional
 @Service

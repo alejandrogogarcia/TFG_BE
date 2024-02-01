@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.test.service;
+package es.udc.tfg.app.test.service;
 
 import javax.transaction.Transactional;
 
@@ -9,11 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import es.udc.tfg.fapptura.service.userservice.RegisterData;
-import es.udc.tfg.fapptura.service.userservice.UserService;
-import es.udc.tfg.fapptura.util.exceptions.ConfirmPasswordNotMatchException;
-import es.udc.tfg.fapptura.util.exceptions.DuplicateInstanceException;
-import es.udc.tfg.fapptura.util.exceptions.InputValidationException;
+import es.udc.tfg.app.service.userservice.RegisterData;
+import es.udc.tfg.app.service.userservice.UserService;
+import es.udc.tfg.app.util.exceptions.ConfirmPasswordNotMatchException;
+import es.udc.tfg.app.util.exceptions.DuplicateInstanceException;
+import es.udc.tfg.app.util.exceptions.InputValidationException;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@SpringBootTest

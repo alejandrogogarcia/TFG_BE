@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.model.user;
+package es.udc.tfg.app.model.user;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,14 +16,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import es.udc.tfg.fapptura.util.enums.Languages;
-import es.udc.tfg.fapptura.util.enums.UserRole;
-import es.udc.tfg.fapptura.model.category.Category;
-import es.udc.tfg.fapptura.model.client.Client;
-import es.udc.tfg.fapptura.model.credentials.Credentials;
-import es.udc.tfg.fapptura.model.invoice.Invoice;
-import es.udc.tfg.fapptura.model.note.Note;
-import es.udc.tfg.fapptura.model.product.Product;
+import es.udc.tfg.app.model.category.Category;
+import es.udc.tfg.app.model.client.Client;
+import es.udc.tfg.app.model.credentials.Credentials;
+import es.udc.tfg.app.model.invoice.Invoice;
+import es.udc.tfg.app.model.note.Note;
+import es.udc.tfg.app.model.product.Product;
+import es.udc.tfg.app.util.enums.Languages;
+import es.udc.tfg.app.util.enums.UserRole;
 
 @Entity
 @Table(name = "users")

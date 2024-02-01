@@ -1,10 +1,10 @@
-package es.udc.tfg.fapptura.util.conversors;
+package es.udc.tfg.app.util.conversors;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import es.udc.tfg.fapptura.util.exceptions.InputValidationException;
+import es.udc.tfg.app.util.exceptions.InputValidationException;
 
 
 public class CalendarConversor {

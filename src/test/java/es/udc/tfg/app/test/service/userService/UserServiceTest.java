@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.test.service.userservice;
+package es.udc.tfg.app.test.service.userService;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -14,27 +14,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import es.udc.tfg.fapptura.model.user.User;
-import es.udc.tfg.fapptura.model.user.UserDao;
-import es.udc.tfg.fapptura.service.userservice.LoginData;
-import es.udc.tfg.fapptura.service.userservice.RegisterData;
-import es.udc.tfg.fapptura.service.userservice.UserData;
-import es.udc.tfg.fapptura.service.userservice.UserService;
-import es.udc.tfg.fapptura.util.conversors.CalendarConversor;
-import es.udc.tfg.fapptura.util.encrypt.PasswordEncrypter;
-import es.udc.tfg.fapptura.util.enums.UserRole;
-import es.udc.tfg.fapptura.util.exceptions.DuplicateInstanceException;
-import es.udc.tfg.fapptura.util.exceptions.IncorrectPasswordException;
-import es.udc.tfg.fapptura.util.exceptions.InputValidationException;
-import es.udc.tfg.fapptura.util.exceptions.InstanceNotFoundException;
+import es.udc.tfg.app.model.user.User;
+import es.udc.tfg.app.service.userservice.LoginData;
+import es.udc.tfg.app.service.userservice.RegisterData;
+import es.udc.tfg.app.service.userservice.UserData;
+import es.udc.tfg.app.service.userservice.UserService;
+import es.udc.tfg.app.util.conversors.CalendarConversor;
+import es.udc.tfg.app.util.encrypt.PasswordEncrypter;
+import es.udc.tfg.app.util.enums.UserRole;
+import es.udc.tfg.app.util.exceptions.DuplicateInstanceException;
+import es.udc.tfg.app.util.exceptions.IncorrectPasswordException;
+import es.udc.tfg.app.util.exceptions.InputValidationException;
+import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @Transactional
 public class UserServiceTest {
-
-	@Autowired
-	UserDao userDao;
 
 	@Autowired
 	UserService userService;

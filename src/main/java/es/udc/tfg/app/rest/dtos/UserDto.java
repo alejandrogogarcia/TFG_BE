@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.rest.dtos;
+package es.udc.tfg.app.rest.dtos;
 
 //import javax.validation.constraints.Email;
 //import javax.validation.constraints.NotNull;

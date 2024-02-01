@@ -1,8 +1,8 @@
-package es.udc.tfg.fapptura.model.note;
+package es.udc.tfg.app.model.note;
 
 import java.util.List;
 
-import es.udc.tfg.fapptura.model.genericDao.GenericDao;
+import es.udc.tfg.app.model.genericDao.GenericDao;
 
 public interface NoteDao extends GenericDao<Note, Long>{
 	

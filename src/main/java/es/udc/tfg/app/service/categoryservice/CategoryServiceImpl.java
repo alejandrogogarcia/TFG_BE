@@ -1,31 +1,34 @@
-package es.udc.tfg.fapptura.service.categoryservice;
+package es.udc.tfg.app.service.categoryservice;
 
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import es.udc.tfg.fapptura.model.category.Category;
-import es.udc.tfg.fapptura.model.category.CategoryDao;
-import es.udc.tfg.fapptura.model.user.User;
-import es.udc.tfg.fapptura.model.user.UserDao;
-import es.udc.tfg.fapptura.util.exceptions.InputValidationException;
-import es.udc.tfg.fapptura.util.exceptions.InstanceNotFoundException;
-import es.udc.tfg.fapptura.util.validator.ValidatorProperties;
+import es.udc.tfg.app.model.category.Category;
+import es.udc.tfg.app.model.category.CategoryDao;
+import es.udc.tfg.app.model.user.User;
+import es.udc.tfg.app.model.user.UserDao;
+import es.udc.tfg.app.util.exceptions.InputValidationException;
+import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
+import es.udc.tfg.app.util.validator.ValidatorProperties;
 
 @Transactional
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
+	@Autowired
 	private CategoryDao categoryDao;
-
+	
+	@Autowired
 	private UserDao userDao;
 
 	@Override
-	public Category createCategory(CategoryData categoryData, Long creatorId)
+	public Category createCategory(CategoryData categoryData)
 			throws InputValidationException, InstanceNotFoundException {
-		User creator = userDao.find(creatorId);
+		User creator = userDao.find(categoryData.getCreatorId());
 		ValidatorProperties.validateString(categoryData.getName());
 		Category category = new Category(categoryData.getName(), categoryData.getDescription(), creator);
 		categoryDao.save(category);
@@ -49,7 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> findCategoryByName(String name) throws InputValidationException {
+	public List<Category> findCategoryByName(String name){
 		return categoryDao.findByName(name);
 	}
 

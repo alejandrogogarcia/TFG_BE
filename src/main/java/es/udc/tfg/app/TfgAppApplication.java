@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura;
+package es.udc.tfg.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,10 +9,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @SpringBootApplication
-public class TfgFappturaApplication {
+public class TfgAppApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TfgFappturaApplication.class, args);
+		SpringApplication.run(TfgAppApplication.class, args);
 	}
 	
 	 @Bean

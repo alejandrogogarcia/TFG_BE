@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.rest.security;
+package es.udc.tfg.app.rest.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +34,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			//.antMatchers(HttpMethod.GET, "/users/*").hasRole("ADMIN")
 //			.antMatchers(HttpMethod.GET, "/courses/public").permitAll()
 			.antMatchers(HttpMethod.PUT, "/users/**").authenticated()
+			.antMatchers(HttpMethod.POST, "/users/create").hasRole("ADMIN")
 			.antMatchers(HttpMethod.GET, "/allUsers").hasRole("ADMIN")
+			.antMatchers(HttpMethod.POST, "/category/create").hasRole("ADMIN")
+			.antMatchers(HttpMethod.PUT, "/category/*/update").hasRole("ADMIN")
 //			.antMatchers(HttpMethod.GET, "/sporttests/sporttest/*").permitAll()
 //			.antMatchers(HttpMethod.GET, "/sporttests/sporttest/findByDate").permitAll()
 //			.antMatchers(HttpMethod.POST, "/inscriptions/inscript/*/create").hasRole("USER")

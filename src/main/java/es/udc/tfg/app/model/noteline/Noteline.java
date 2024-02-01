@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.model.noteline;
+package es.udc.tfg.app.model.noteline;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,8 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import es.udc.tfg.fapptura.model.note.Note;
-import es.udc.tfg.fapptura.model.product.Product;
+import es.udc.tfg.app.model.note.Note;
+import es.udc.tfg.app.model.product.Product;
 
 @Entity
 @Table(name = "notelines")

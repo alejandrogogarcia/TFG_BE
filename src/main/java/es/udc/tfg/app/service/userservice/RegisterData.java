@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.service.userservice;
+package es.udc.tfg.app.service.userservice;
 
 public class RegisterData {
 	

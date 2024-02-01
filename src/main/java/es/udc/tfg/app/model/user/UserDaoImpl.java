@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.model.user;
+package es.udc.tfg.app.model.user;
 
 import java.util.List;
 
@@ -7,9 +7,9 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import es.udc.tfg.fapptura.model.genericDao.GenericDaoImpl;
-import es.udc.tfg.fapptura.util.enums.UserRole;
-import es.udc.tfg.fapptura.util.exceptions.InstanceNotFoundException;
+import es.udc.tfg.app.model.genericDao.GenericDaoImpl;
+import es.udc.tfg.app.util.enums.UserRole;
+import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
 
 @Repository
 @Transactional

@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.util.encrypt;
+package es.udc.tfg.app.util.encrypt;
 
 public class PasswordEncrypter {
 	

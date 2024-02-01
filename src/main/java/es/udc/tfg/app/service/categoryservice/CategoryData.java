@@ -1,17 +1,20 @@
-package es.udc.tfg.fapptura.service.categoryservice;
+package es.udc.tfg.app.service.categoryservice;
 
 public class CategoryData {
 
 	private String name;
 
 	private String description;
+	
+	private Long creatorId;
 
 	public CategoryData() {
 	}
 
-	public CategoryData(String name, String description) {
+	public CategoryData(String name, String description, Long creatorId) {
 		this.name = name;
 		this.description = description;
+		this.creatorId = creatorId;
 	}
 
 	public String getName() {
@@ -29,7 +32,13 @@ public class CategoryData {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
+
+	public Long getCreatorId() {
+		return creatorId;
+	}
+
+	public void setCreatorId(Long creatorId) {
+		this.creatorId = creatorId;
+	}
 
 }

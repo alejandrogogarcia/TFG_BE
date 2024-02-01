@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.model.note;
+package es.udc.tfg.app.model.note;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,10 +14,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import es.udc.tfg.fapptura.model.client.Client;
-import es.udc.tfg.fapptura.model.invoice.Invoice;
-import es.udc.tfg.fapptura.model.noteline.Noteline;
-import es.udc.tfg.fapptura.model.user.User;
+import es.udc.tfg.app.model.client.Client;
+import es.udc.tfg.app.model.invoice.Invoice;
+import es.udc.tfg.app.model.noteline.Noteline;
+import es.udc.tfg.app.model.user.User;
 
 @Entity
 @Table(name = "notes")

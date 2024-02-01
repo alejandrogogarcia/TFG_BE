@@ -1,7 +1,7 @@
-package es.udc.tfg.fapptura.util.conversors;
+package es.udc.tfg.app.util.conversors;
 
-import es.udc.tfg.fapptura.util.enums.UserRole;
-import es.udc.tfg.fapptura.util.exceptions.InputValidationException;
+import es.udc.tfg.app.util.enums.UserRole;
+import es.udc.tfg.app.util.exceptions.InputValidationException;
 
 public class RoleConversor {
 

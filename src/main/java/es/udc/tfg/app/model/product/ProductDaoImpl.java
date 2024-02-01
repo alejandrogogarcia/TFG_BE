@@ -1,22 +1,21 @@
-package es.udc.tfg.fapptura.model.product;
+package es.udc.tfg.app.model.product;
 
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import es.udc.tfg.fapptura.model.genericDao.GenericDaoImpl;
+import es.udc.tfg.app.model.genericDao.GenericDaoImpl;
 
 @Repository
 @Transactional
 public class ProductDaoImpl extends GenericDaoImpl<Product, Long> implements ProductDao{
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<Product> findByReference(String reference) {
-		return (List<Product>) this.em.createQuery("SELECT p FROM Product p WHERE p.reference like :reference")
-				.setParameter("reference", "%" + reference + "%").getResultList();
-	}
+//	@Override
+//	public Product findByReference(String reference) {
+//		return (Product) this.em.createQuery("SELECT p FROM Product p WHERE p.reference = :reference")
+//				.setParameter("reference", "%" + reference + "%").getResultList();
+//	}
 
 	@Override
 	@SuppressWarnings("unchecked")

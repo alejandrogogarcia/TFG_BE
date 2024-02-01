@@ -1,4 +1,4 @@
-package es.udc.tfg.fapptura.rest.security;
+package es.udc.tfg.app.rest.security;
 
 public class JwtInfo {
 	
