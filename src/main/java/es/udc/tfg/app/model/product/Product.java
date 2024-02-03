@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,12 +22,11 @@ import es.udc.tfg.app.model.user.User;
 @Table(name = "products")
 public class Product {
 	
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private Long id;
-	
 	@Id
-	private Long reference;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	private String reference;
 	
 	private String name;
 	
@@ -70,7 +71,7 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(Long reference, String name, String description, String image, String data, Float price, Integer discount,
+	public Product(String reference, String name, String description, String image, String data, Float price, Integer discount,
 			Integer stock, Category category, Product mainProduct, User creator) {
 		this.reference = reference;
 		this.name = name;
@@ -88,19 +89,19 @@ public class Product {
 	
 	// ....... Getters & Setters ......./
 
-//	public Long getId() {
-//		return id;
-//	}
-//
-//	public void setId(Long id) {
-//		this.id = id;
-//	}
-//	
-	public Long getReference() {
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public String getReference() {
 		return reference;
 	}
 
-	public void setReference(Long reference) {
+	public void setReference(String reference) {
 		this.reference = reference;
 	}
 

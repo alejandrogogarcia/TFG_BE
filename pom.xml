@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>es.udc</groupId>
-	<artifactId>TFG-Fapptura</artifactId>
+	<artifactId>TFG-App</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>TFG-Fapptura</name>
-	<description>TFG Fapptura</description>
+	<name>TFG-App</name>
+	<description>TFG App</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>

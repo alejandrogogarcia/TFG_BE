@@ -6,7 +6,9 @@ import es.udc.tfg.app.model.genericDao.GenericDao;
 
 public interface ProductDao extends GenericDao<Product, Long> {
 	
-	//public Product findByReference(Long reference);
+	public Product findByReference(String reference);
+	
+	public List<Product> findReferenceByKeywords(String keywords);
 	
 	public List<Product> findByName(String name);
 	

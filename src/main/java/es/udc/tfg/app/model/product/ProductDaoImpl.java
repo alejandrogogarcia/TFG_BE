@@ -11,11 +11,18 @@ import es.udc.tfg.app.model.genericDao.GenericDaoImpl;
 @Transactional
 public class ProductDaoImpl extends GenericDaoImpl<Product, Long> implements ProductDao{
 
-//	@Override
-//	public Product findByReference(String reference) {
-//		return (Product) this.em.createQuery("SELECT p FROM Product p WHERE p.reference = :reference")
-//				.setParameter("reference", "%" + reference + "%").getResultList();
-//	}
+	@Override
+	public Product findByReference(String reference) {
+		return (Product) this.em.createQuery("SELECT p FROM Product p WHERE p.reference = :reference")
+				.setParameter("reference", reference).getResultList();
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Product> findReferenceByKeywords(String keywords) {
+		return (List<Product>) this.em.createQuery("SELECT p FROM Product p WHERE p.reference = :keywords")
+				.setParameter("keywords", "%" + keywords + "%").getResultList();
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -57,5 +64,6 @@ public class ProductDaoImpl extends GenericDaoImpl<Product, Long> implements Pro
 	public List<Product> findAll() {
 		return (List<Product>) this.em.createQuery("SELECT p FROM Product p ORDER BY p.id");
 	}
+
 
 }
