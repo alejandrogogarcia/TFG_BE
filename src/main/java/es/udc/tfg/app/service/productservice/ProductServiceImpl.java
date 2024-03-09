@@ -13,6 +13,8 @@ import es.udc.tfg.app.model.product.Product;
 import es.udc.tfg.app.model.product.ProductDao;
 import es.udc.tfg.app.model.user.User;
 import es.udc.tfg.app.model.user.UserDao;
+import es.udc.tfg.app.service.categoryservice.CategoryService;
+import es.udc.tfg.app.service.userservice.UserService;
 import es.udc.tfg.app.util.exceptions.DuplicateInstanceException;
 import es.udc.tfg.app.util.exceptions.InputValidationException;
 import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
@@ -30,25 +32,23 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	UserService userService;
 
 	@Override
 	public Product createProduct(ProductData productData)
 			throws InstanceNotFoundException, InputValidationException, DuplicateInstanceException {
 			
-			Long reference = productData.getReference();
+			String reference = productData.getReference();
 		try {
-			productDao.find(reference);
+			productDao.findByReference(reference);
 			throw new DuplicateInstanceException(productData.getReference(), Product.class.getName());
 
 		} catch (InstanceNotFoundException e) {
 			
 			User creator = userDao.find(productData.getCreatorId());
 			Category category = categoryDao.find(productData.getCategoryId());
-			Long mainProductReference = productData.getMainProductReference();
-			Product mainProduct = null;
-			if (mainProductReference != null) {
-				mainProduct= productDao.find(mainProductReference);
-			}
 			String name = productData.getName();
 			ValidatorProperties.validateString(name);
 			String description = productData.getDescription();
@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
 			Float price = productData.getPrice();
 			ValidatorProperties.validatePositiveFloat(price);
 
-			Product product = new Product(reference, name, description, productData.getImage(), productData.getData(), price, discount, stock, category, mainProduct, creator);
+			Product product = new Product(reference, name, description, productData.getImage(), productData.getData(), price, discount, stock, category, creator);
 			productDao.save(product);
 			
 			return product;
@@ -69,51 +69,107 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void updateProduct(Long productReference, ProductData productData)
-			throws InstanceNotFoundException, InputValidationException {
-		// TODO Auto-generated method stub
-
+	public void updateProduct(Long id, ProductData productData)
+			throws InstanceNotFoundException, InputValidationException, DuplicateInstanceException {
+		
+		Product product = productDao.find(id);
+		
+		String reference = productData.getReference();
+		if (product.getReference() != reference) {
+			try {
+				productDao.findByReference(reference);
+				throw new DuplicateInstanceException(productData.getReference(), Product.class.getName());
+			} catch (InstanceNotFoundException e) {
+				product.setReference(reference);			}
+		}
+		
+		String name = productData.getName();
+		if (product.getName() != name) {
+			ValidatorProperties.validateString(name);
+			product.setName(name);
+		}
+		
+		String description = productData.getDescription();
+		if (product.getDescription() != description) {
+			ValidatorProperties.validateString(description);
+			product.setDescription(description);
+		}
+		
+		//IMAGEN?
+		
+		//DATA?
+		
+		Float price = productData.getPrice();
+		if (product.getPrice() != price) {
+			ValidatorProperties.validatePositiveFloat(price);
+			product.setPrice(price);
+		}
+		
+		Integer discount = productData.getDiscount();
+		if (product.getDiscount() != discount) {
+			ValidatorProperties.validatePositiveInteger(discount);
+			product.setDiscount(discount);
+		}
+		
+		Integer stock = productData.getStock();
+		if (product.getStock() != stock) {
+			ValidatorProperties.validatePositiveInteger(stock);
+			product.setStock(stock);
+		}
+		
+		Long categoryId = productData.getCategoryId();
+		if (product.getCategory().getId() != categoryId) {
+			Category category = categoryDao.find(categoryId);
+		}
+		
+		Long creatorId = productData.getCreatorId();
+		if (product.getCreator().getId() != creatorId) {	
+			User creator = userDao.find(creatorId);
+			product.setCreator(creator);	
+		}		
 	}
 
 	@Override
-	public Product findProductByReference(Long reference) throws InstanceNotFoundException {
-		return productDao.find(reference);
+	public Product findProductById(Long id) throws InstanceNotFoundException {
+		return productDao.find(id);
+	}
+	
+	@Override
+	public Product findProductByReference(String reference) throws InstanceNotFoundException {
+		return productDao.findByReference(reference);
 	}
 
+	@Override
+	public List<Product> findProductByKeywords(String keywords) {
+		return productDao.findByKeywords(keywords);
+	}
+	
 	@Override
 	public List<Product> findProductsByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return  productDao.findByName(name);
 	}
 
 	@Override
 	public List<Product> findProductsByStockMin(Integer stock) {
-		// TODO Auto-generated method stub
-		return null;
+		return productDao.findByStockMin(stock);
 	}
 
 	@Override
-	public List<Product> findProductsByCategoryId(Long categoryId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Product> findProductsByCategoryId(Long categoryId) throws InstanceNotFoundException {
+		
+		categoryDao.find(categoryId);
+		return productDao.findByCreatorId(categoryId);
 	}
 
 	@Override
-	public List<Product> findProductsByMainProductId(Long mainProductId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Product> findProductsByCreatorId(Long creatorId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Product> findProductsByCreatorId(Long creatorId) throws InstanceNotFoundException {
+		userService.findUserById(creatorId);
+		return productDao.findByCategoryId(creatorId);
 	}
 
 	@Override
 	public List<Product> findAllProducts() {
-		// TODO Auto-generated method stub
-		return null;
+		return productDao.findAll();
 	}
-
+	
 }

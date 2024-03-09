@@ -203,7 +203,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			roleEnum = UserRole.valueOf(role);
 		} catch (IllegalArgumentException e) {
-			throw new InputValidationException(role, "Role shoul be UserRole type");
+			throw new InputValidationException(role, "Role should be UserRole type");
 		}
 		return userDao.findByUserRole(roleEnum);
 	}

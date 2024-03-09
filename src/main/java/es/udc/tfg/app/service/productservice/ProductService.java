@@ -12,20 +12,22 @@ public interface ProductService {
 	public Product createProduct(ProductData productData)
 			throws InstanceNotFoundException, InputValidationException, DuplicateInstanceException;
 
-	public void updateProduct(Long reference, ProductData productData)
-			throws InstanceNotFoundException, InputValidationException;
+	public void updateProduct(Long id, ProductData productData)
+			throws InstanceNotFoundException, InputValidationException, DuplicateInstanceException;
+	
+	public Product findProductById(Long id) throws InstanceNotFoundException;
 
-	public Product findProductByReference(Long reference) throws InstanceNotFoundException;
+	public Product findProductByReference(String reference) throws InstanceNotFoundException;
+
+	public List<Product> findProductByKeywords(String keywords);
 
 	public List<Product> findProductsByName(String name);
 
 	public List<Product> findProductsByStockMin(Integer stock);
 
-	public List<Product> findProductsByCategoryId(Long categoryId);
+	public List<Product> findProductsByCategoryId(Long categoryId) throws InstanceNotFoundException;
 
-	public List<Product> findProductsByMainProductId(Long mainProductId);
-
-	public List<Product> findProductsByCreatorId(Long creatorId);
+	public List<Product> findProductsByCreatorId(Long creatorId) throws InstanceNotFoundException;
 
 	public List<Product> findAllProducts();
 

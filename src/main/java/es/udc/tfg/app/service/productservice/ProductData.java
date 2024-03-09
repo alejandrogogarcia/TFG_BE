@@ -2,7 +2,7 @@ package es.udc.tfg.app.service.productservice;
 
 public class ProductData {
 
-	private Long reference;
+	private String reference;
 
 	private String name;
 
@@ -20,15 +20,13 @@ public class ProductData {
 
 	private Long categoryId;
 
-	private Long mainProductReference;
-
 	private Long creatorId;
 	
 	public ProductData() {
 	}
 	
-	public ProductData(Long reference, String name, String description, String image, String data, Float price,
-			Integer discount, Integer stock, Long categoryId, Long mainProductReference, Long creatorId) {
+	public ProductData(String reference, String name, String description, String image, String data, Float price,
+			Integer discount, Integer stock, Long categoryId, Long creatorId) {
 		this.reference = reference;
 		this.name = name;
 		this.description = description;
@@ -38,17 +36,15 @@ public class ProductData {
 		this.discount = discount;
 		this.stock = stock;
 		this.categoryId = categoryId;
-		this.mainProductReference = mainProductReference;
 		this.creatorId = creatorId;
 	}
 
 	
-
-	public Long getReference() {
+	public String getReference() {
 		return reference;
 	}
 
-	public void setReference(Long reference) {
+	public void setReference(String reference) {
 		this.reference = reference;
 	}
 
@@ -114,14 +110,6 @@ public class ProductData {
 
 	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
-	}
-
-	public Long getMainProductReference() {
-		return mainProductReference;
-	}
-
-	public void setMainProductReference(Long mainProductReference) {
-		this.mainProductReference = mainProductReference;
 	}
 
 	public Long getCreatorId() {

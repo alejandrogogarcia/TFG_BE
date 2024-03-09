@@ -50,9 +50,6 @@ public class Product {
     @JoinColumn(name = "category_id")
 	private Category category;
 	
-	@ManyToOne()
-    @JoinColumn(name = "mainProduct_id")
-	private Product mainProduct;
 	
 	@ManyToOne()
     @JoinColumn(name = "creator_id")
@@ -63,8 +60,6 @@ public class Product {
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<Noteline> notelines = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "mainProduct", cascade = CascadeType.ALL)
-	private List<Product> subproducts = new ArrayList<>();
 
 	// ....... Constructores ......./
 	
@@ -72,7 +67,7 @@ public class Product {
 	}
 
 	public Product(String reference, String name, String description, String image, String data, Float price, Integer discount,
-			Integer stock, Category category, Product mainProduct, User creator) {
+			Integer stock, Category category, User creator) {
 		this.reference = reference;
 		this.name = name;
 		this.description = description;
@@ -83,7 +78,6 @@ public class Product {
 		this.stock = stock;
 		this.createDate = Calendar.getInstance();
 		this.category = category;
-		this.mainProduct = mainProduct;
 		this.creator = creator;
 	}
 	
@@ -179,14 +173,6 @@ public class Product {
 		this.category = category;
 	}
 
-	public Product getMainProduct() {
-		return mainProduct;
-	}
-
-	public void setMainProduct(Product mainProduct) {
-		this.mainProduct = mainProduct;
-	}
-
 	public User getCreator() {
 		return creator;
 	}
@@ -204,15 +190,5 @@ public class Product {
 	public void setNotelines(List<Noteline> notelines) {
 		this.notelines = notelines;
 	}
-
-	public List<Product> getSubproducts() {
-		return subproducts;
-	}
-
-	public void setSubproducts(List<Product> subproducts) {
-		this.subproducts = subproducts;
-	}
-	
-	
 	
 }
