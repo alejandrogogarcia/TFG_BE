@@ -40,7 +40,8 @@ public class ProductServiceImpl implements ProductService {
 	public Product createProduct(ProductData productData)
 			throws InstanceNotFoundException, InputValidationException, DuplicateInstanceException {
 			
-			String reference = productData.getReference();
+			String reference = productData.getReference().trim();
+			ValidatorProperties.validateString(reference);
 		try {
 			productDao.findByReference(reference);
 			throw new DuplicateInstanceException(productData.getReference(), Product.class.getName());

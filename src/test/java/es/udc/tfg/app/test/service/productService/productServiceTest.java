@@ -74,24 +74,30 @@ public class productServiceTest {
 
 	}
 
-	private final String PRODUCT_REFERENCE_1 = "C12345A";
-	private final String PRODUCT_REFERENCE_2 = "D13345B";
-	private final String PRODUCT_NAME_1 = "Product 1";
-	private final String PRODUCT_NAME_2 = "Product 2";
-	private final String PRODUCT_DESC_1 = "Product number 1";
-	private final String PRODUCT_DESC_2 = "Product number 2";
-	private final Float PRODUCT_PRICE_1 = (float) 12.34;
-	private final Float PRODUCT_PRICE_2 = (float) 22.44;
-	private final Integer PRODUCT_DISCOUNT_1 = 0;
-	private final Integer PRODUCT_DISCOUNT_2 = 5;
-	private final Integer PRODUCT_STOCK_1 = 5;
-	private final Integer PRODUCT_STOCK_2 = 20;
+	private final String VALID_PRODUCT_REFERENCE_1 = "C12345A";
+	private final String VALID_PRODUCT_REFERENCE_2 = "D13345B";
+	private final String INVALID_PRODUCT_REFERENCE = "";
+	private final String VALID_PRODUCT_NAME_1 = "Product 1";
+	private final String VALID_PRODUCT_NAME_2 = "Product 2";
+	private final String INVALID_PRODUCT_NAME = "";
+	private final String VALID_PRODUCT_DESC_1 = "Product number 1";
+	private final String VALID_PRODUCT_DESC_2 = "Product number 2";
+	private final String INVALID_PRODUCT_DESC = "";
+	private final Float VALID_PRODUCT_PRICE_1 = (float) 12.34;
+	private final Float VALID_PRODUCT_PRICE_2 = (float) 22.44;
+	private final Float INVALID_PRODUCT_PRICE = (float) -2.03;
+	private final Integer VALID_PRODUCT_DISCOUNT_1 = 0;
+	private final Integer VALID_PRODUCT_DISCOUNT_2 = 5;
+	private final Integer INVALID_PRODUCT_DISCOUNT = -5;
+	private final Integer VALID_PRODUCT_STOCK_1 = 5;
+	private final Integer VALID_PRODUCT_STOCK_2 = 20;
+	private final Integer INVALID_PRODUCT_STOCK_2 = -20;
 
 	private Product getValidProduct1(Long creatorId)
 			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
 
-		ProductData productData = new ProductData(PRODUCT_REFERENCE_1, PRODUCT_NAME_1, PRODUCT_DESC_1, "", "",
-				PRODUCT_PRICE_1, PRODUCT_DISCOUNT_1, PRODUCT_STOCK_1, getValidCategoryId(creatorId), creatorId);
+		ProductData productData = new ProductData(VALID_PRODUCT_REFERENCE_1, VALID_PRODUCT_NAME_1, VALID_PRODUCT_DESC_1, "", "",
+				VALID_PRODUCT_PRICE_1, VALID_PRODUCT_DISCOUNT_1, VALID_PRODUCT_STOCK_1, getValidCategoryId(creatorId), creatorId);
 
 		return productService.createProduct(productData);
 	}
@@ -99,8 +105,8 @@ public class productServiceTest {
 	private Product getValidProduct2(Long creatorId)
 			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
 
-		ProductData productData = new ProductData(PRODUCT_REFERENCE_2, PRODUCT_NAME_2, PRODUCT_DESC_2, "", "",
-				PRODUCT_PRICE_2, PRODUCT_DISCOUNT_2, PRODUCT_STOCK_2, getValidCategoryId2(creatorId), creatorId);
+		ProductData productData = new ProductData(VALID_PRODUCT_REFERENCE_2, VALID_PRODUCT_NAME_2, VALID_PRODUCT_DESC_2, "", "",
+				VALID_PRODUCT_PRICE_2, VALID_PRODUCT_DISCOUNT_2, VALID_PRODUCT_STOCK_2, getValidCategoryId2(creatorId), creatorId);
 
 		return productService.createProduct(productData);
 	}
@@ -155,6 +161,28 @@ public class productServiceTest {
 
 		productService.findProductByReference("error");
 
+	}
+	
+	@Test(expected = InputValidationException.class)
+	public void testCreateProductInvalidReference()
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		Long creatorId = getValidUserId();
+		ProductData productData = new ProductData(INVALID_PRODUCT_REFERENCE, VALID_PRODUCT_NAME_2, VALID_PRODUCT_DESC_2, "", "",
+				VALID_PRODUCT_PRICE_2, VALID_PRODUCT_DISCOUNT_2, VALID_PRODUCT_STOCK_2, getValidCategoryId2(creatorId), creatorId);
+
+		productService.createProduct(productData);
+	}
+	
+	@Test(expected = InputValidationException.class)
+	public void testCreateProductInvalidName()
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		Long creatorId = getValidUserId();
+		ProductData productData = new ProductData(VALID_PRODUCT_REFERENCE_1, INVALID_PRODUCT_NAME, VALID_PRODUCT_DESC_2, "", "",
+				VALID_PRODUCT_PRICE_2, VALID_PRODUCT_DISCOUNT_2, VALID_PRODUCT_STOCK_2, getValidCategoryId2(creatorId), creatorId);
+
+		productService.createProduct(productData);
 	}
 
 
