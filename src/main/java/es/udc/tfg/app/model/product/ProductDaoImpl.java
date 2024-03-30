@@ -52,21 +52,21 @@ public class ProductDaoImpl extends GenericDaoImpl<Product, Long> implements Pro
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Product> findByCategoryId(Long categoryId) {
-		return (List<Product>) this.em.createQuery("SELECT p FROM Product p WHERE p.category.id like :categoryId")
+		return (List<Product>) this.em.createQuery("SELECT p FROM Product p WHERE p.category.id = :categoryId")
 				.setParameter("categoryId", categoryId).getResultList();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Product> findByCreatorId(Long creatorId) {
-		return (List<Product>) this.em.createQuery("SELECT p FROM Product p WHERE p.creator.id like :creatorId")
+		return (List<Product>) this.em.createQuery("SELECT p FROM Product p WHERE p.creator.id = :creatorId")
 				.setParameter("creatorId", creatorId).getResultList();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Product> findAll() {
-		return (List<Product>) this.em.createQuery("SELECT p FROM Product p ORDER BY p.id");
+		return (List<Product>) this.em.createQuery("SELECT p FROM Product p ORDER BY p.id").getResultList();
 	}
 
 }

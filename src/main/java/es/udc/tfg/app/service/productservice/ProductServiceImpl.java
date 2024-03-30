@@ -76,6 +76,7 @@ public class ProductServiceImpl implements ProductService {
 		Product product = productDao.find(id);
 		
 		String reference = productData.getReference();
+		ValidatorProperties.validateString(reference);
 		if (product.getReference() != reference) {
 			try {
 				productDao.findByReference(reference);
@@ -159,13 +160,13 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> findProductsByCategoryId(Long categoryId) throws InstanceNotFoundException {
 		
 		categoryDao.find(categoryId);
-		return productDao.findByCreatorId(categoryId);
+		return productDao.findByCategoryId(categoryId);
 	}
 
 	@Override
 	public List<Product> findProductsByCreatorId(Long creatorId) throws InstanceNotFoundException {
 		userService.findUserById(creatorId);
-		return productDao.findByCategoryId(creatorId);
+		return productDao.findByCreatorId(creatorId);
 	}
 
 	@Override
