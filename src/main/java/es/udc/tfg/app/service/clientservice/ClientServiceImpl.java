@@ -3,6 +3,7 @@ package es.udc.tfg.app.service.clientservice;
 import java.util.Calendar;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,8 +20,10 @@ import es.udc.tfg.app.util.validator.ValidatorProperties;
 @Service
 public class ClientServiceImpl implements ClientService {
 
+	@Autowired
 	private ClientDao clientDao;
 
+	@Autowired
 	private UserDao userDao;
 
 	@Override

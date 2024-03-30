@@ -504,7 +504,7 @@ public class productServiceTest {
 		assertEquals(search.size(), 1);
 		assertEquals(product1.getId(), search.get(0).getId());
 
-		Product product2 = getValidProduct2(creatorId);
+		getValidProduct2(creatorId);
 		search = productService.findAllProducts();
 		assertEquals(search.size(), 2);
 	}

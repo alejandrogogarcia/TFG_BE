@@ -22,6 +22,7 @@ public class ClientData {
 
 	private Long phoneNumber;
 	
+	@SuppressWarnings("unused")
 	private Calendar modifyDate;
 
 	public ClientData() {
@@ -112,13 +113,5 @@ public class ClientData {
 	public void setPhoneNumber(Long phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-
-	public Calendar getModifyDate() {
-		return modifyDate;
-	}
-
-	public void setModifyDate(Calendar modifyDate) {
-		this.modifyDate = modifyDate;
-	}	
 
 }
