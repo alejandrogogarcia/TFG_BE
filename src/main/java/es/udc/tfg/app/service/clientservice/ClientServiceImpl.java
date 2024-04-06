@@ -57,7 +57,7 @@ public class ClientServiceImpl implements ClientService {
 			Long phoneNumber = clientData.getPhoneNumber();
 			ValidatorProperties.validatePhoneNumbre(phoneNumber);
 
-			Client client = new Client(firstName, lastName, dni, address, city, postCode, province, email, postCode,
+			Client client = new Client(firstName, lastName, dni, address, city, postCode, province, email, phoneNumber,
 					creator);
 			clientDao.save(client);
 

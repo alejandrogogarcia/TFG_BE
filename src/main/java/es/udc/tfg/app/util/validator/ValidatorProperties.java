@@ -26,7 +26,7 @@ public class ValidatorProperties {
 		Pattern regexPattern = Pattern.compile(stringPattern);
 		Matcher regexMatcher = regexPattern.matcher(email.toLowerCase());
 
-		if (email.length() > 80 || !regexMatcher.matches()) {
+		if (email.length() > 80 || !regexMatcher.matches() || email == null ){
 			throw new InputValidationException(email,
 					"It must be less than 80 char and it must have valid email characters");
 		}
@@ -69,7 +69,7 @@ public class ValidatorProperties {
 
 	public static void validatePhoneNumbre(Long phoneNumber) throws InputValidationException {
 
-		if (phoneNumber.toString().length() != 9) {
+		if (phoneNumber.toString().length() != 9 || phoneNumber == null) {
 			throw new InputValidationException("Phone Number", "It cannot be null or whith size other than 9");
 		}
 
