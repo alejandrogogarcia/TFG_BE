@@ -67,7 +67,8 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	@Override
-	public void updateClient(Long clientId, ClientData clientData) throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+	public void updateClient(Long clientId, ClientData clientData)
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
 
 		Client client = clientDao.find(clientId);
 
@@ -138,7 +139,7 @@ public class ClientServiceImpl implements ClientService {
 		} else {
 			phoneNumber = client.getPhoneNumber();
 		}
-		
+
 		client.setDni(dni);
 		client.setFirstName(firstName);
 		client.setLastName(lastName);
@@ -149,7 +150,6 @@ public class ClientServiceImpl implements ClientService {
 		client.setEmail(email);
 		client.setPhoneNumber(phoneNumber);
 		client.setModifyDate(Calendar.getInstance());
-		
 
 	}
 

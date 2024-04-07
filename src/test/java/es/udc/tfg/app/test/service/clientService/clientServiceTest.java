@@ -1,6 +1,9 @@
 package es.udc.tfg.app.test.service.clientService;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -39,11 +42,11 @@ public class clientServiceTest {
 	private final String VALID_PASSWORD = "password";
 	private final String VALID_PASSWORD_2 = "password2";
 	private final String INVALID_FIRST_NAME = "";
-	private final String VALID_FIRST_NAME = "firstName1";
-	private final String VALID_FIRST_NAME_2 = "firstName2";
+	private final String VALID_FIRST_NAME = "Alejandro";
+	private final String VALID_FIRST_NAME_2 = "Alberto";
 	private final String INVALID_LAST_NAME = "";
-	private final String VALID_LAST_NAME = "lastName1";
-	private final String VALID_LAST_NAME_2 = "lastName2";
+	private final String VALID_LAST_NAME = "Gomez";
+	private final String VALID_LAST_NAME_2 = "García";
 	private final String VALID_BIRTH_DATE = "01/01/1990";
 	private final String VALID_BIRTH_DATE_2 = "03/12/1994";
 	private final String VALID_LANGUAGE = "ESP";
@@ -264,10 +267,10 @@ public class clientServiceTest {
 	@Test(expected = InstanceNotFoundException.class)
 	public void testUpdateNonExistenClient()
 			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
-		
+
 		clientService.updateClient((long) 1, null);
 	}
-	
+
 	@Test(expected = InputValidationException.class)
 	public void testUpdateInvalidFirstName()
 			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
@@ -357,15 +360,125 @@ public class clientServiceTest {
 				VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, INVALID_PHONENUMBER);
 		clientService.updateClient(clientId, clientData);
 	}
-	
+
 	@Test(expected = DuplicateInstanceException.class)
 	public void testUpdateDuplicatedDni()
 			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
-		
+
 		Long creatorId = getValidUserId();
 		Long clientId = getValidClient(creatorId, getValidClientData()).getId();
 		ClientData clientData = getValidClientData2();
 		getValidClient(creatorId, clientData);
 		clientService.updateClient(clientId, clientData);
+	}
+
+	@Test
+	public void testFindClientByFirstName()
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		List<Client> search = clientService.findClientByFirstName("prueba");
+		assertTrue(search.isEmpty());
+		Long creatorId = getValidUserId();
+		ClientData clientData1 = getValidClientData();
+		Client client1 = getValidClient(creatorId, clientData1);
+		ClientData clientData2 = getValidClientData2();
+		Client client2 = getValidClient(creatorId, clientData2);
+		search = clientService.findClientByFirstName("Al");
+		assertEquals(search.size(), 2);
+		search = clientService.findClientByFirstName(clientData1.getFirstName());
+		assertEquals(client1.getId(), search.get(0).getId());
+		search = clientService.findClientByFirstName(clientData2.getFirstName());
+		assertEquals(client2.getId(), search.get(0).getId());
+	}
+
+	@Test
+	public void testFindClientByLastName()
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		List<Client> search = clientService.findClientByLastName("prueba");
+		assertTrue(search.isEmpty());
+		Long creatorId = getValidUserId();
+		ClientData clientData1 = getValidClientData();
+		Client client1 = getValidClient(creatorId, clientData1);
+		ClientData clientData2 = getValidClientData2();
+		Client client2 = getValidClient(creatorId, clientData2);
+		search = clientService.findClientByLastName("G");
+		assertEquals(search.size(), 2);
+		search = clientService.findClientByLastName(clientData1.getLastName());
+		assertEquals(client1.getId(), search.get(0).getId());
+		search = clientService.findClientByLastName(clientData2.getLastName());
+		assertEquals(client2.getId(), search.get(0).getId());
+	}
+
+	@Test
+	public void testFindClientByDni()
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		Long creatorId = getValidUserId();
+		ClientData clientData1 = getValidClientData();
+		Client client1 = getValidClient(creatorId, clientData1);
+		ClientData clientData2 = getValidClientData2();
+		Client client2 = getValidClient(creatorId, clientData2);
+		Client search = clientService.findClientByDni(clientData1.getDni());
+		assertEquals(client1.getId(), search.getId());
+		search = clientService.findClientByDni(clientData2.getDni());
+		assertEquals(client2.getId(), search.getId());
+	}
+
+	@Test(expected = InstanceNotFoundException.class)
+	public void testFindClientByNonExistenDni()
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		clientService.findClientByDni(VALID_DNI);
+
+	}
+
+	@Test
+	public void testFindClientByCity()
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		List<Client> search = clientService.findClientByCity("prueba");
+		assertTrue(search.isEmpty());
+		Long creatorId = getValidUserId();
+		ClientData clientData1 = getValidClientData();
+		Client client1 = getValidClient(creatorId, clientData1);
+		ClientData clientData2 = getValidClientData2();
+		Client client2 = getValidClient(creatorId, clientData2);
+		search = clientService.findClientByCity("Ciudad");
+		assertEquals(search.size(), 2);
+		search = clientService.findClientByCity(clientData1.getCity());
+		assertEquals(client1.getId(), search.get(0).getId());
+		search = clientService.findClientByCity(clientData2.getCity());
+		assertEquals(client2.getId(), search.get(0).getId());
+	}
+
+	@Test
+	public void testFindClientByCreatorId()
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		Long creatorId1 = getValidUserId();
+		Long creatorId2 = getValidUserId2();
+		List<Client> search = clientService.findClientByCreatorId(creatorId1);
+		assertTrue(search.isEmpty());
+		Client client1 = getValidClient(creatorId1, getValidClientData());
+		Client client2 = getValidClient(creatorId2, getValidClientData2());
+		search = clientService.findClientByCreatorId(creatorId1);
+		assertEquals(client1.getId(), search.get(0).getId());
+		search = clientService.findClientByCreatorId(creatorId2);
+		assertEquals(client2.getId(), search.get(0).getId());
+	}
+
+	@Test
+	public void testFindAllClients()
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		List<Client> search = clientService.findAll();
+		assertTrue(search.isEmpty());
+		getValidClient(getValidUserId(), getValidClientData());
+		search = clientService.findAll();
+		assertEquals(1, search.size());
+		getValidClient(getValidUserId2(), getValidClientData2());
+		search = clientService.findAll();
+		assertEquals(2, search.size());
 	}
 }
