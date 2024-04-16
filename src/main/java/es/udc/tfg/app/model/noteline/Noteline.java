@@ -1,9 +1,9 @@
 package es.udc.tfg.app.model.noteline;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -13,56 +13,65 @@ import es.udc.tfg.app.model.product.Product;
 
 @Entity
 @Table(name = "notelines")
+@IdClass(NotelinePK.class)
 public class Noteline {
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
+	@Column(name = "noteline_id")
+	private Long notelineId;
+
+	@Id
+	@Column(name = "note_id")
+	private Long noteId;
+
 	private Float price;
-	
+
 	private Integer amount;
-	
+
 	private Integer discount;
-	
-	private Float subtotal;
-	
+
 	private String comment;
 
-	// ....... Relaciones N a 1  ......./
-	
-	@ManyToOne()
-    @JoinColumn(name = "product_id")	
+	// ....... Relaciones N a 1 ......./
+
+	@ManyToOne
+	@JoinColumn(name = "product_id")
 	private Product product;
 
-	@ManyToOne()
-    @JoinColumn(name = "note_id")
+	@ManyToOne
+	@JoinColumn(name = "note_id" , insertable = false, updatable = false)
 	private Note note;
 
 	// ....... Constructores ......./
-	
+
 	public Noteline() {
 	}
 
-	public Noteline(Float price, Integer amount, Integer discount, Float subtotal, String comment, Product product,
-			Note note) {
+	public Noteline(Float price, Integer amount, Integer discount, String comment, Product product, Note note) {
 		this.price = price;
 		this.amount = amount;
 		this.discount = discount;
-		this.subtotal = subtotal;
 		this.comment = comment;
 		this.product = product;
 		this.note = note;
 	}
 
 	// ....... Getters & Setters ......./
-	
-	public Long getId() {
-		return id;
+
+	public Long getNotelineId() {
+		return notelineId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setNotelineId(Long notelineId) {
+		this.notelineId = notelineId;
+	}
+
+	public Long getNoteId() {
+		return noteId;
+	}
+
+	public void setNoteId(Long noteId) {
+		this.noteId = noteId;
 	}
 
 	public Float getPrice() {
@@ -90,11 +99,7 @@ public class Noteline {
 	}
 
 	public Float getSubtotal() {
-		return subtotal;
-	}
-
-	public void setSubtotal(Float subtotal) {
-		this.subtotal = subtotal;
+		return (price * amount) * (1 - discount / 100);
 	}
 
 	public String getComment() {
@@ -105,8 +110,8 @@ public class Noteline {
 		this.comment = comment;
 	}
 
-	// ....... Relaciones N a 1  ......./
-	
+	// ....... Relaciones N a 1 ......./
+
 	public Product getProduct() {
 		return product;
 	}
@@ -122,6 +127,5 @@ public class Noteline {
 	public void setNote(Note note) {
 		this.note = note;
 	}
-	
-	
+
 }

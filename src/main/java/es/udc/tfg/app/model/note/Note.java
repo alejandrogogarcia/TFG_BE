@@ -60,10 +60,10 @@ public class Note {
 	public Note() {
 	}
 
-	public Note(Float subtotal, Float taxes, Float total, Calendar createDate, Client client, User creator) {
-		this.subtotal = subtotal;
-		this.taxes = taxes;
-		this.total = total;
+	public Note(Client client, User creator) {
+		this.subtotal =(float) 0.0;
+		this.taxes = (float) 0.0;
+		this.total = (float) 0.0;
 		this.createDate = Calendar.getInstance();
 		this.client = client;
 		this.creator = creator;
