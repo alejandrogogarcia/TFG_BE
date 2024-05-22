@@ -2,6 +2,8 @@ package es.udc.tfg.app.model.noteline;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -18,6 +20,7 @@ public class Noteline {
 
 	@Id
 	@Column(name = "noteline_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long notelineId;
 
 	@Id
@@ -108,6 +111,10 @@ public class Noteline {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+		this.price = null;
+		this.amount = null;
+		this.discount = null;
+		this.product = null;
 	}
 
 	// ....... Relaciones N a 1 ......./

@@ -33,7 +33,11 @@ public abstract class GenericDaoImpl<E, PK extends Serializable> implements Gene
 	}
 
 	public void remove(PK id) {
-		this.em.remove(this.em.getReference(type, id));
+		//this.em.remove(this.em.getReference(type, id));
+		E entity = em.find(type, id);
+        if (entity != null) {
+        	em.remove(entity);
+        }
 	}
 
 	public E find(PK id)  throws InstanceNotFoundException {

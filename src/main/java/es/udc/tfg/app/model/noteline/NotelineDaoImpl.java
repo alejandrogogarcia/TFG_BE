@@ -2,14 +2,34 @@ package es.udc.tfg.app.model.noteline;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.tfg.app.model.genericDao.GenericDaoImpl;
+import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
 
 @Repository
 @Transactional
 public class NotelineDaoImpl extends GenericDaoImpl<Noteline, Long> implements NotelineDao {
+
+	@Override
+	public Noteline find(Long noteId, Long notelineId) throws InstanceNotFoundException {
+
+		Noteline noteline = null;
+
+		try {
+			Query query = this.em
+					.createQuery("SELECT n FROM notelines n WHERE n.notelineId = :notelineId & n.noteId = :noteId")
+					.setParameter("notelineId", notelineId).setParameter("noteId", noteId);
+			noteline = (Noteline) query.getSingleResult();
+		} catch (Exception e) {
+			throw new InstanceNotFoundException(noteId + " - " + notelineId, Noteline.class.getName());
+		}
+
+		return noteline;
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -21,7 +41,7 @@ public class NotelineDaoImpl extends GenericDaoImpl<Noteline, Long> implements N
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Noteline> findByNoteId(Long noteId) {
-		return (List<Noteline>) this.em.createQuery("SELECT n FROM Noteline n WHERE n.note.id like :noteId")
+		return (List<Noteline>) this.em.createQuery("SELECT n FROM Noteline n WHERE n.noteId like :noteId")
 				.setParameter("noteId", noteId).getResultList();
 	}
 

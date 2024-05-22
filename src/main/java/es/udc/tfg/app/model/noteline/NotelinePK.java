@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 
-public class NotelinePK implements Serializable{
+public class NotelinePK implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -14,6 +14,9 @@ public class NotelinePK implements Serializable{
 
 	@Column(name = "note_id")
 	private Long noteId;
+
+	public NotelinePK() {
+	}
 
 	public Long getId() {
 		return notelineId;

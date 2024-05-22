@@ -13,8 +13,6 @@ import es.udc.tfg.app.model.product.Product;
 import es.udc.tfg.app.model.product.ProductDao;
 import es.udc.tfg.app.model.user.User;
 import es.udc.tfg.app.model.user.UserDao;
-import es.udc.tfg.app.service.categoryservice.CategoryService;
-import es.udc.tfg.app.service.userservice.UserService;
 import es.udc.tfg.app.util.exceptions.DuplicateInstanceException;
 import es.udc.tfg.app.util.exceptions.InputValidationException;
 import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
@@ -25,29 +23,26 @@ import es.udc.tfg.app.util.validator.ValidatorProperties;
 public class ProductServiceImpl implements ProductService {
 
 	@Autowired
-	ProductDao productDao;
-	
+	private ProductDao productDao;
+
 	@Autowired
-	CategoryDao categoryDao;
-	
+	private CategoryDao categoryDao;
+
 	@Autowired
-	UserDao userDao;
-	
-	@Autowired
-	UserService userService;
+	private UserDao userDao;
 
 	@Override
 	public Product createProduct(ProductData productData)
 			throws InstanceNotFoundException, InputValidationException, DuplicateInstanceException {
-			
-			String reference = productData.getReference().trim();
-			ValidatorProperties.validateString(reference);
+
+		String reference = productData.getReference().trim();
+		ValidatorProperties.validateString(reference);
 		try {
 			productDao.findByReference(reference);
 			throw new DuplicateInstanceException(productData.getReference(), Product.class.getName());
 
 		} catch (InstanceNotFoundException e) {
-			
+
 			User creator = userDao.find(productData.getCreatorId());
 			Category category = categoryDao.find(productData.getCategoryId());
 			String name = productData.getName();
@@ -61,9 +56,10 @@ public class ProductServiceImpl implements ProductService {
 			Float price = productData.getPrice();
 			ValidatorProperties.validatePositiveFloat(price);
 
-			Product product = new Product(reference, name, description, productData.getImage(), productData.getData(), price, discount, stock, category, creator);
+			Product product = new Product(reference, name, description, productData.getImage(), productData.getData(),
+					price, discount, stock, category, creator);
 			productDao.save(product);
-			
+
 			return product;
 		}
 
@@ -72,9 +68,9 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void updateProduct(Long id, ProductData productData)
 			throws InstanceNotFoundException, InputValidationException, DuplicateInstanceException {
-		
+
 		Product product = productDao.find(id);
-		
+
 		String reference = productData.getReference();
 		ValidatorProperties.validateString(reference);
 		if (product.getReference() != reference) {
@@ -82,60 +78,62 @@ public class ProductServiceImpl implements ProductService {
 				productDao.findByReference(reference);
 				throw new DuplicateInstanceException(productData.getReference(), Product.class.getName());
 			} catch (InstanceNotFoundException e) {
-				product.setReference(reference);			}
+				product.setReference(reference);
+			}
 		}
-		
+
 		String name = productData.getName();
 		if (product.getName() != name) {
 			ValidatorProperties.validateString(name);
 			product.setName(name);
 		}
-		
+
 		String description = productData.getDescription();
 		if (product.getDescription() != description) {
 			ValidatorProperties.validateString(description);
 			product.setDescription(description);
 		}
-		
-		//IMAGEN?
-		
-		//DATA?
-		
+
+		// IMAGEN?
+
+		// DATA?
+
 		Float price = productData.getPrice();
 		if (product.getPrice() != price) {
 			ValidatorProperties.validatePositiveFloat(price);
 			product.setPrice(price);
 		}
-		
+
 		Integer discount = productData.getDiscount();
 		if (product.getDiscount() != discount) {
 			ValidatorProperties.validatePositiveInteger(discount);
 			product.setDiscount(discount);
 		}
-		
+
 		Integer stock = productData.getStock();
 		if (product.getStock() != stock) {
 			ValidatorProperties.validatePositiveInteger(stock);
 			product.setStock(stock);
 		}
-		
+
 		Long categoryId = productData.getCategoryId();
 		if (product.getCategory().getId() != categoryId) {
 			Category category = categoryDao.find(categoryId);
+			product.setCategory(category);
 		}
-		
+
 		Long creatorId = productData.getCreatorId();
-		if (product.getCreator().getId() != creatorId) {	
+		if (product.getCreator().getId() != creatorId) {
 			User creator = userDao.find(creatorId);
-			product.setCreator(creator);	
-		}		
+			product.setCreator(creator);
+		}
 	}
 
 	@Override
 	public Product findProductById(Long id) throws InstanceNotFoundException {
 		return productDao.find(id);
 	}
-	
+
 	@Override
 	public Product findProductByReference(String reference) throws InstanceNotFoundException {
 		return productDao.findByReference(reference);
@@ -145,10 +143,10 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> findProductByKeywords(String keywords) {
 		return productDao.findByKeywords(keywords);
 	}
-	
+
 	@Override
 	public List<Product> findProductsByName(String name) {
-		return  productDao.findByName(name);
+		return productDao.findByName(name);
 	}
 
 	@Override
@@ -158,14 +156,14 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<Product> findProductsByCategoryId(Long categoryId) throws InstanceNotFoundException {
-		
+
 		categoryDao.find(categoryId);
 		return productDao.findByCategoryId(categoryId);
 	}
 
 	@Override
 	public List<Product> findProductsByCreatorId(Long creatorId) throws InstanceNotFoundException {
-		userService.findUserById(creatorId);
+		userDao.find(creatorId);
 		return productDao.findByCreatorId(creatorId);
 	}
 
@@ -173,5 +171,5 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> findAllProducts() {
 		return productDao.findAll();
 	}
-	
+
 }

@@ -9,7 +9,8 @@ import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
 
 public interface ClientService {
 	
-	public Client createClient(ClientData clientData, Long creatorID) throws InputValidationException, InstanceNotFoundException, DuplicateInstanceException;
+	public Client createClient(ClientData clientData,
+			Long creatorID) throws InputValidationException, InstanceNotFoundException, DuplicateInstanceException;
 	
 	public void updateClient(Long clientId, ClientData clientData) throws InstanceNotFoundException, InputValidationException, DuplicateInstanceException; 
 	
