@@ -1,7 +1,6 @@
 package es.udc.tfg.app.service.noteservice;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.transaction.Transactional;

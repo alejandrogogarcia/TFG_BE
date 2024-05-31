@@ -58,7 +58,6 @@ public class productServiceTest {
 	private final String VALID_USER_IMAGE_2 = "ertfbdfhf";
 
 	private Long getValidUserId() throws InputValidationException, DuplicateInstanceException {
-		System.out.println("Creado el usuario");
 		return userService.registerUser(new RegisterData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_EMAIL,
 				VALID_PASSWORD, VALID_BIRTH_DATE, VALID_LANGUAGE, VALID_USER_TYPE, VALID_USER_IMAGE)).getId();
 	}
