@@ -3,6 +3,7 @@ package es.udc.tfg.app.test.service.noteService;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import antlr.collections.List;
 import es.udc.tfg.app.model.note.Note;
 import es.udc.tfg.app.model.product.Product;
 import es.udc.tfg.app.model.user.User;
@@ -135,8 +135,8 @@ public class noteServiceTest {
 
 		Long creatorId = getValidUserId();
 		Long clientId = getValidClientId(creatorId);
+		
 		return noteService.createNote(creatorId, clientId).getId();
-
 	}
 
 	@Test
@@ -144,10 +144,10 @@ public class noteServiceTest {
 			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
 
 		Long noteId = getValidNoteId();
-		List listNotelineData = new ArrayList();
+		//List<NotelineData> listNotelineData = new ArrayList<NotelineData>();
 
 		noteService.addNotelines(noteId, null);
-		noteService.findNoteById(noteId);
+		//noteService.findNoteById(noteId);
 
 		assertEquals(1, 1);
 

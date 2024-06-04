@@ -9,12 +9,10 @@ import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
 
 public interface NoteService{
 	
-	public Note createNote(Long creatorId,  Long clientId) throws InstanceNotFoundException;
+	public Note createNote(Long creatorId, Long clientId,  List<NotelineData> notelineDataList) throws InstanceNotFoundException;
 	
 	public void modifyNote(Long noteId, Long clientId) throws InstanceNotFoundException, InputValidationException;
-	
-	public void addNotelines(Long noteId, List<NotelineData> notelineData) throws InstanceNotFoundException;
-	
+		
 	public void modifyNoteLine(Long noteLineId, Long noteId, NotelineData notelineData)throws InstanceNotFoundException, InputValidationException;
 	
 	public Note findNoteById(Long noteId) throws InstanceNotFoundException;

@@ -2,6 +2,7 @@ package es.udc.tfg.app.model.noteline;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,7 +42,7 @@ public class Noteline {
 	@JoinColumn(name = "product_id")
 	private Product product;
 
-	@ManyToOne
+	@ManyToOne (optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "note_id" , insertable = false, updatable = false)
 	private Note note;
 
@@ -51,6 +52,7 @@ public class Noteline {
 	}
 
 	public Noteline(Float price, Integer amount, Integer discount, String comment, Product product, Note note) {
+		this.noteId = note.getId();
 		this.price = price;
 		this.amount = amount;
 		this.discount = discount;

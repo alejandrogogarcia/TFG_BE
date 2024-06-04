@@ -42,40 +42,31 @@ public class NoteServiceImp implements NoteService {
 	private ProductDao productDao;
 
 	@Override
-	public Note createNote(Long creatorId, Long clientId) throws InstanceNotFoundException {
+	public Note createNote(Long creatorId, Long clientId, List<NotelineData> notelineDataList)
+			throws InstanceNotFoundException {
 
 		User creator = userDao.find(creatorId);
 		Client client = clientDao.find(clientId);
 
 		Note note = new Note(client, creator);
-		// REVISAR TRANSACCIONALIDAD
 		noteDao.save(note);
-		return note;
-	}
 
-	@Override
-	public void addNotelines(Long noteId, List<NotelineData> notelineData) throws InstanceNotFoundException {
+		for (NotelineData notelineData : notelineDataList) {
 
-		Note note = noteDao.find(noteId);
-		List<Noteline> notelines = new ArrayList<>();
+			Noteline noteline = null;
+			if (notelineData.getComment() == null) {
+				Product product = productDao.findByReference(notelineData.getReference());
+				noteline = new Noteline(product.getPrice(), notelineData.getAmount(), notelineData.getDiscount(), null,
+						product, note);
 
-		for (NotelineData noteline : notelineData) {
-
-			if (noteline.getComment() == null) {
-				Product product = productDao.findByReference(noteline.getReference());
-				notelines.add(new Noteline(product.getPrice(), noteline.getAmount(), noteline.getDiscount(), null,
-						product, note));
 			} else {
-				notelines.add(new Noteline(null, null, null, noteline.getComment(), null, note));
+				noteline = new Noteline(null, null, null, notelineData.getComment(), null, note);
 			}
-		}
-		note.setNotelines(notelines);
-		noteDao.save(note);
-
-		for (Noteline noteline : notelines) {
+			note.addNoteline(noteline);
 			notelineDao.save(noteline);
 		}
 
+		return note;
 	}
 
 	@Override
@@ -92,9 +83,9 @@ public class NoteServiceImp implements NoteService {
 	@Override
 	public void modifyNoteLine(Long noteId, Long noteLineId, NotelineData notelineData)
 			throws InstanceNotFoundException, InputValidationException {
-		
+
 		Noteline noteline = notelineDao.find(noteId, noteLineId);
-		
+
 		if (notelineData.getComment() == null) {
 			Product product = productDao.findByReference(notelineData.getReference());
 			noteline.setComment(null);

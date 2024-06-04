@@ -143,6 +143,10 @@ public class Note {
 		this.notelines = notelines;
 	}
 	
+	public void addNoteline(Noteline noteline) {
+		this.notelines.add(noteline);
+	}
+	
 	
 
 }
