@@ -18,18 +18,12 @@ import es.udc.tfg.app.model.product.Product;
 @IdClass(NotelinePK.class)
 public class Noteline {
 
-//	@Id
-//	@Column(name = "noteline_id")
-//	@GeneratedValue(strategy = GenerationType.AUTO)
-//	private Long notelineId;
-//
 	@Id
-//	@Column(name = "note_id")
-	private Long noteId;
-	
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long notelineId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long notelineId;
+
+//	@Id
+//	private Long noteId;
 
 	private Float price;
 
@@ -44,12 +38,13 @@ public class Noteline {
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
-	
+
 //    @ManyToOne
 //    @JoinColumn(name = "note_id", referencedColumnName = "id")
 
+	@Id
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "note_id", insertable = false, updatable = false)
+	@JoinColumn(name = "noteId", insertable = false, updatable = false)
 	private Note note;
 
 	// ....... Constructores ......./
@@ -58,7 +53,7 @@ public class Noteline {
 	}
 
 	public Noteline(Float price, Integer amount, Integer discount, Product product, Note note) {
-		this.noteId = note.getId();
+//		this.noteId = note.getId();
 		this.price = price;
 		this.amount = amount;
 		this.discount = discount;
@@ -77,13 +72,13 @@ public class Noteline {
 		this.notelineId = notelineId;
 	}
 
-	public Long getNoteId() {
-		return noteId;
-	}
-
-	public void setNoteId(Long noteId) {
-		this.noteId = noteId;
-	}
+//	public Long getNoteId() {
+//		return noteId;
+//	}
+//
+//	public void setNoteId(Long noteId) {
+//		this.noteId = noteId;
+//	}
 
 	public Float getPrice() {
 		return price;
