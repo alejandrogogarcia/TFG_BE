@@ -2,8 +2,6 @@ package es.udc.tfg.app.model.noteline;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -19,11 +17,7 @@ import es.udc.tfg.app.model.product.Product;
 public class Noteline {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long notelineId;
-
-//	@Id
-//	private Long noteId;
 
 	private Float price;
 
@@ -39,9 +33,6 @@ public class Noteline {
 	@JoinColumn(name = "product_id")
 	private Product product;
 
-//    @ManyToOne
-//    @JoinColumn(name = "note_id", referencedColumnName = "id")
-
 	@Id
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "noteId", insertable = false, updatable = false)
@@ -52,8 +43,8 @@ public class Noteline {
 	public Noteline() {
 	}
 
-	public Noteline(Float price, Integer amount, Integer discount, Product product, Note note) {
-//		this.noteId = note.getId();
+	public Noteline(Long notelineId, Float price, Integer amount, Integer discount, Product product, Note note) {
+		this.notelineId = notelineId;
 		this.price = price;
 		this.amount = amount;
 		this.discount = discount;
@@ -71,14 +62,6 @@ public class Noteline {
 	public void setNotelineId(Long notelineId) {
 		this.notelineId = notelineId;
 	}
-
-//	public Long getNoteId() {
-//		return noteId;
-//	}
-//
-//	public void setNoteId(Long noteId) {
-//		this.noteId = noteId;
-//	}
 
 	public Float getPrice() {
 		return price;

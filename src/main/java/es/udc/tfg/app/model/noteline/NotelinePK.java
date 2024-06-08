@@ -3,8 +3,6 @@ package es.udc.tfg.app.model.noteline;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Column;
-
 import es.udc.tfg.app.model.note.Note;
 
 public class NotelinePK implements Serializable {
@@ -15,38 +13,30 @@ public class NotelinePK implements Serializable {
 
 	private Note note;
 
-//	public NotelinePK() {
-//	}
-//
-//	public NotelinePK(Long notelineId, Long noteId) {
-//		this.notelineId = notelineId;
-//		this.noteId = noteId;
-//	}
-//
-////	public Long getId() {
-////		return notelineId;
-////	}
-////
-////	public void setId(Long id) {
-////		this.notelineId = id;
-////	}
-//
-//	public void setNotelineId(Long notelineId) {
-//		this.notelineId = notelineId;
-//	}
-//
-//	public void setNoteId(Long noteId) {
-//		this.noteId = noteId;
-//	}
-//
-//	public Long getNoteId() {
-//		return noteId;
-//	}
-//
-//	public Long getNotelineId() {
-//		return notelineId;
-//	}
-//
+	public NotelinePK() {
+	}
+
+	public NotelinePK(Long notelineId, Note note) {
+		this.notelineId = notelineId;
+		this.note = note;
+	}
+
+	public Long getNotelineId() {
+		return notelineId;
+	}
+
+	public void setNotelineId(Long notelineId) {
+		this.notelineId = notelineId;
+	}
+
+	public Note getNote() {
+		return note;
+	}
+
+	public void setNote(Note note) {
+		this.note = note;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

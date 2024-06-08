@@ -1,6 +1,5 @@
 package es.udc.tfg.app.service.noteservice;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -14,7 +13,6 @@ import es.udc.tfg.app.model.note.Note;
 import es.udc.tfg.app.model.note.NoteDao;
 import es.udc.tfg.app.model.noteline.Noteline;
 import es.udc.tfg.app.model.noteline.NotelineDao;
-import es.udc.tfg.app.model.noteline.NotelinePK;
 import es.udc.tfg.app.model.product.Product;
 import es.udc.tfg.app.model.product.ProductDao;
 import es.udc.tfg.app.model.user.User;
@@ -49,8 +47,8 @@ public class NoteServiceImp implements NoteService {
 		Client client = clientDao.find(clientId);
 
 		Note note = new Note(client, creator);
-		if (comment != null){
-			if(comment.trim().length() != 0) {
+		if (comment != null) {
+			if (comment.trim().length() != 0) {
 				note.setComment(comment);
 			}
 		}
@@ -60,29 +58,31 @@ public class NoteServiceImp implements NoteService {
 		for (NotelineData notelineData : notelineDataList) {
 
 			Product product = productDao.findByReference(notelineData.getReference());
-			noteline = new Noteline(product.getPrice(), notelineData.getAmount(), notelineData.getDiscount(), product,note);
+			Long notelineId = (long) (notelineDataList.indexOf(notelineData) + 1);
+			noteline = new Noteline(notelineId, product.getPrice(), notelineData.getAmount(),
+					notelineData.getDiscount(), product, note);
 			String commentNoteline = notelineData.getComment();
-			if (commentNoteline != null){
-				if(commentNoteline.trim().length() != 0) {
+			if (commentNoteline != null) {
+				if (commentNoteline.trim().length() != 0) {
 					noteline.setComment(commentNoteline);
 				}
 			}
 			note.addNoteline(noteline);
 			notelineDao.save(noteline);
-			System.out.println(noteline.getNote().getId() + "   " + noteline.getNotelineId());
 		}
 
 		return note;
 	}
 
 	@Override
-	public void modifyNote(Long noteId, Long clientId, String comment) throws InstanceNotFoundException, InputValidationException {
+	public void modifyNote(Long noteId, Long clientId, String comment)
+			throws InstanceNotFoundException, InputValidationException {
 
 		Note note = noteDao.find(noteId);
 		Client client = clientDao.find(clientId);
 		note.setClient(client);
-		if (comment != null){
-			if(comment.trim().length() != 0) {
+		if (comment != null) {
+			if (comment.trim().length() != 0) {
 				note.setComment(comment);
 			}
 		}
@@ -121,9 +121,9 @@ public class NoteServiceImp implements NoteService {
 	@Override
 	public void removeNoteLine(Long noteId, Long noteLineId) throws InstanceNotFoundException {
 
-		NotelinePK id = new NotelinePK();
-		id.setId(noteLineId);
-		id.setNoteId(noteId);
+//		NotelinePK id = new NotelinePK();
+//		id.setId(noteLineId);
+//		id.setNoteId(noteId);
 		// REVISAR
 		// notelineDao.remove(id);
 

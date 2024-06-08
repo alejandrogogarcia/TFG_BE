@@ -21,7 +21,7 @@ public class NotelineDaoImpl extends GenericDaoImpl<Noteline, Long> implements N
 
 		try {
 			Query query = this.em
-					.createQuery("SELECT n FROM notelines n WHERE n.notelineId = :notelineId & n.noteId = :noteId")
+					.createQuery("SELECT n FROM notelines n WHERE n.notelineId = :notelineId & n.note.id = :noteId")
 					.setParameter("notelineId", notelineId).setParameter("noteId", noteId);
 			noteline = (Noteline) query.getSingleResult();
 		} catch (Exception e) {
@@ -29,6 +29,21 @@ public class NotelineDaoImpl extends GenericDaoImpl<Noteline, Long> implements N
 		}
 
 		return noteline;
+	}
+
+	@Override
+	public void remove(Long noteId, Long notelineId) throws InstanceNotFoundException {
+
+		try {
+			Query query = this.em
+					.createQuery("DELETE FROM notelines WHERE notelineId = :notelineId & n.noteId = :noteId")
+					.setParameter("notelineId", notelineId).setParameter("noteId", noteId);
+			query.executeUpdate();
+		} catch (Exception e) {
+			throw new InstanceNotFoundException(noteId + " - " + notelineId, Noteline.class.getName());
+		}
+
+
 	}
 
 	@Override

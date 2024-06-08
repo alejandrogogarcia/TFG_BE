@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import es.udc.tfg.app.model.note.Note;
+import es.udc.tfg.app.model.noteline.Noteline;
+import es.udc.tfg.app.model.noteline.NotelineDao;
 import es.udc.tfg.app.model.product.Product;
 import es.udc.tfg.app.model.user.User;
 import es.udc.tfg.app.service.categoryservice.CategoryData;
@@ -148,7 +150,9 @@ public class noteServiceTest {
 		Long clientId = getValidClientId(creatorId);
 		Note note = noteService.createNote(creatorId, clientId, "", getValidNotelineDataList1(creatorId));
 
-		//Note noteSearch = noteService.findNoteById(note.getId());
+		Note noteSearch = noteService.findNoteById(note.getId());
+		
+		System.out.println(noteService.findNotelineById(noteSearch.getId(), (long) 2));
 
 		//assertEquals(note.getId(), noteSearch.getId());
 
