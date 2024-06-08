@@ -3,6 +3,7 @@ package es.udc.tfg.app.test.service.noteService;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -103,7 +104,7 @@ public class noteServiceTest {
 
 		return productService.createProduct(productData).getReference();
 	}
-	
+
 	private String getValidProductReference2(Long creatorId)
 			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
 
@@ -114,12 +115,15 @@ public class noteServiceTest {
 		return productService.createProduct(productData).getReference();
 	}
 
-	private NotelineData getValidNotelineData(String comment, String reference)
+	private List<NotelineData> getValidNotelineDataList1(Long creatorId)
 			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
 
-		return new NotelineData(1, 0, comment, reference);
+		List<NotelineData> list = new ArrayList<NotelineData>();
+		list.add(new NotelineData(1, 0, null, getValidProductReference1(creatorId)));
+		list.add(new NotelineData(3, 10, "Comentario para producto", getValidProductReference2(creatorId)));
+
+		return list;
 	}
-	
 
 	private Long getValidClientId(Long creatorId)
 			throws InputValidationException, InstanceNotFoundException, DuplicateInstanceException {
@@ -130,26 +134,23 @@ public class noteServiceTest {
 
 	}
 
-	private Long getValidNoteId()
+	private Long getValidNote1(Long creatorId, Long clientId)
 			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
 
-		Long creatorId = getValidUserId();
-		Long clientId = getValidClientId(creatorId);
-		
-		return noteService.createNote(creatorId, clientId).getId();
+		return noteService.createNote(creatorId, clientId, "", getValidNotelineDataList1(creatorId)).getId();
 	}
 
 	@Test
 	public void testcreateAdnFindById()
 			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+		
+		Long creatorId = getValidUserId();
+		Long clientId = getValidClientId(creatorId);
+		Note note = noteService.createNote(creatorId, clientId, "", getValidNotelineDataList1(creatorId));
 
-		Long noteId = getValidNoteId();
-		//List<NotelineData> listNotelineData = new ArrayList<NotelineData>();
+		//Note noteSearch = noteService.findNoteById(note.getId());
 
-		noteService.addNotelines(noteId, null);
-		//noteService.findNoteById(noteId);
-
-		assertEquals(1, 1);
+		//assertEquals(note.getId(), noteSearch.getId());
 
 	}
 

@@ -1,6 +1,5 @@
 package es.udc.tfg.app.model.noteline;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,14 +18,18 @@ import es.udc.tfg.app.model.product.Product;
 @IdClass(NotelinePK.class)
 public class Noteline {
 
+//	@Id
+//	@Column(name = "noteline_id")
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	private Long notelineId;
+//
 	@Id
-	@Column(name = "noteline_id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long notelineId;
-
-	@Id
-	@Column(name = "note_id")
+//	@Column(name = "note_id")
 	private Long noteId;
+	
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long notelineId;
 
 	private Float price;
 
@@ -41,9 +44,12 @@ public class Noteline {
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
+	
+//    @ManyToOne
+//    @JoinColumn(name = "note_id", referencedColumnName = "id")
 
-	@ManyToOne (optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "note_id" , insertable = false, updatable = false)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "note_id", insertable = false, updatable = false)
 	private Note note;
 
 	// ....... Constructores ......./
@@ -51,12 +57,12 @@ public class Noteline {
 	public Noteline() {
 	}
 
-	public Noteline(Float price, Integer amount, Integer discount, String comment, Product product, Note note) {
+	public Noteline(Float price, Integer amount, Integer discount, Product product, Note note) {
 		this.noteId = note.getId();
 		this.price = price;
 		this.amount = amount;
 		this.discount = discount;
-		this.comment = comment;
+		this.comment = "";
 		this.product = product;
 		this.note = note;
 	}
@@ -113,10 +119,6 @@ public class Noteline {
 
 	public void setComment(String comment) {
 		this.comment = comment;
-		this.price = null;
-		this.amount = null;
-		this.discount = null;
-		this.product = null;
 	}
 
 	// ....... Relaciones N a 1 ......./

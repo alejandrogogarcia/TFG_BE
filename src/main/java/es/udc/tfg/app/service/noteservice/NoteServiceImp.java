@@ -42,40 +42,50 @@ public class NoteServiceImp implements NoteService {
 	private ProductDao productDao;
 
 	@Override
-	public Note createNote(Long creatorId, Long clientId, List<NotelineData> notelineDataList)
+	public Note createNote(Long creatorId, Long clientId, String comment, List<NotelineData> notelineDataList)
 			throws InstanceNotFoundException {
 
 		User creator = userDao.find(creatorId);
 		Client client = clientDao.find(clientId);
 
 		Note note = new Note(client, creator);
+		if (comment != null){
+			if(comment.trim().length() != 0) {
+				note.setComment(comment);
+			}
+		}
 		noteDao.save(note);
+		Noteline noteline = null;
 
 		for (NotelineData notelineData : notelineDataList) {
 
-			Noteline noteline = null;
-			if (notelineData.getComment() == null) {
-				Product product = productDao.findByReference(notelineData.getReference());
-				noteline = new Noteline(product.getPrice(), notelineData.getAmount(), notelineData.getDiscount(), null,
-						product, note);
-
-			} else {
-				noteline = new Noteline(null, null, null, notelineData.getComment(), null, note);
+			Product product = productDao.findByReference(notelineData.getReference());
+			noteline = new Noteline(product.getPrice(), notelineData.getAmount(), notelineData.getDiscount(), product,note);
+			String commentNoteline = notelineData.getComment();
+			if (commentNoteline != null){
+				if(commentNoteline.trim().length() != 0) {
+					noteline.setComment(commentNoteline);
+				}
 			}
 			note.addNoteline(noteline);
 			notelineDao.save(noteline);
+			System.out.println(noteline.getNote().getId() + "   " + noteline.getNotelineId());
 		}
 
 		return note;
 	}
 
 	@Override
-	public void modifyNote(Long noteId, Long clientId) throws InstanceNotFoundException, InputValidationException {
+	public void modifyNote(Long noteId, Long clientId, String comment) throws InstanceNotFoundException, InputValidationException {
 
 		Note note = noteDao.find(noteId);
 		Client client = clientDao.find(clientId);
-
 		note.setClient(client);
+		if (comment != null){
+			if(comment.trim().length() != 0) {
+				note.setComment(comment);
+			}
+		}
 		noteDao.save(note);
 
 	}

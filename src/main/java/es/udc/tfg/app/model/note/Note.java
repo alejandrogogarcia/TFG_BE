@@ -23,52 +23,55 @@ import es.udc.tfg.app.model.user.User;
 @Entity
 @Table(name = "notes")
 public class Note {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private Float subtotal;
-	
+
 	private Float taxes;
-	
+
 	private Float total;
-	
+
+	private String comment;
+
 	private Calendar createDate;
-	
-	// ....... Relaciones N a 1  ......./
-	
-	@ManyToOne()
-    @JoinColumn(name = "client_id")
-	private Client client;
-	
-	@ManyToOne()
-    @JoinColumn(name = "creator_id")
-	private User creator; 
+
+	// ....... Relaciones N a 1 ......./
 
 	@ManyToOne()
-    @JoinColumn(name = "invoice_id")
+	@JoinColumn(name = "client_id")
+	private Client client;
+
+	@ManyToOne()
+	@JoinColumn(name = "creator_id")
+	private User creator;
+
+	@ManyToOne()
+	@JoinColumn(name = "invoice_id")
 	private Invoice invoice;
-	
-	// ....... Relaciones 1 a N  ......./
-	
+
+	// ....... Relaciones 1 a N ......./
+
 	@OneToMany(mappedBy = "note", cascade = CascadeType.ALL)
 	private List<Noteline> notelines = new ArrayList<>();
 
 	// ....... Constructores ......./
-	
+
 	public Note() {
 	}
 
 	public Note(Client client, User creator) {
-		this.subtotal =(float) 0.0;
+		this.subtotal = (float) 0.0;
 		this.taxes = (float) 0.0;
 		this.total = (float) 0.0;
+		this.comment = "";
 		this.createDate = Calendar.getInstance();
 		this.client = client;
 		this.creator = creator;
 	}
-	
+
 	// ....... Getters & Setters ......./
 
 	public Long getId() {
@@ -101,6 +104,14 @@ public class Note {
 
 	public void setTotal(Float total) {
 		this.total = total;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	public Calendar getCreateDate() {
@@ -142,11 +153,9 @@ public class Note {
 	public void setNotelines(List<Noteline> notelines) {
 		this.notelines = notelines;
 	}
-	
+
 	public void addNoteline(Noteline noteline) {
 		this.notelines.add(noteline);
 	}
-	
-	
 
 }
