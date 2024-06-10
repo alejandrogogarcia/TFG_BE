@@ -11,10 +11,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import es.udc.tfg.app.model.note.Note;
+import es.udc.tfg.app.model.noteline.Noteline;
 import es.udc.tfg.app.service.categoryservice.CategoryData;
 import es.udc.tfg.app.service.categoryservice.CategoryService;
 import es.udc.tfg.app.service.clientservice.ClientData;
@@ -25,7 +25,6 @@ import es.udc.tfg.app.service.productservice.ProductData;
 import es.udc.tfg.app.service.productservice.ProductService;
 import es.udc.tfg.app.service.userservice.RegisterData;
 import es.udc.tfg.app.service.userservice.UserService;
-import es.udc.tfg.app.util.exceptions.ConfirmPasswordNotMatchException;
 import es.udc.tfg.app.util.exceptions.DuplicateInstanceException;
 import es.udc.tfg.app.util.exceptions.InputValidationException;
 import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
@@ -49,11 +48,11 @@ public class noteServiceTest {
 
 	@Autowired
 	ProductService productService;
-	
-	private final Long NOTEIDTEST  = (long) 0;
 
 	private final String VALID_EMAIL = "email3@udc.es";
+	private final String VALID_EMAIL_2 = "email2@udc.es";
 	private final String VALID_DNI = "12345677A";
+	private final String VALID_DNI_2 = "12345677B";
 	private final String VALID_PASSWORD = "password";
 	private final String VALID_FIRST_NAME = "firstName1";
 	private final String VALID_LAST_NAME = "lastName1";
@@ -84,6 +83,9 @@ public class noteServiceTest {
 
 	private final String VALID_NAME = "category 1";
 	private final String VALID_DESC = "category number 1";
+
+	private final String VALID_COMMENT = "Comment 1";
+	private final String VALID_COMMENT_2 = "Comment 2";
 
 	private Long getValidUserId() throws InputValidationException, DuplicateInstanceException {
 		return userService.registerUser(new RegisterData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_EMAIL,
@@ -122,7 +124,30 @@ public class noteServiceTest {
 		List<NotelineData> list = new ArrayList<NotelineData>();
 		list.add(new NotelineData(1, 0, null, getValidProductReference1(creatorId)));
 		list.add(new NotelineData(3, 10, "Comentario para producto", getValidProductReference2(creatorId)));
+		return list;
+	}
+	
+	private List<NotelineData> getValidNotelineDataList2(Long creatorId)
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
 
+		List<NotelineData> list = new ArrayList<NotelineData>();
+		list.add(new NotelineData(3, 10, "Comentario para producto", getValidProductReference2(creatorId)));
+		return list;
+	}
+
+	private List<NotelineData> getInvalidNotelineDataList1(Long creatorId)
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		List<NotelineData> list = new ArrayList<NotelineData>();
+		list.add(new NotelineData(0, 0, null, getValidProductReference1(creatorId)));
+		return list;
+	}
+
+	private List<NotelineData> getInvalidNotelineDataList2(Long creatorId)
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		List<NotelineData> list = new ArrayList<NotelineData>();
+		list.add(new NotelineData(-1, 101, null, getValidProductReference1(creatorId)));
 		return list;
 	}
 
@@ -135,31 +160,233 @@ public class noteServiceTest {
 
 	}
 
-	private Long getValidNote1(Long creatorId, Long clientId)
+	private Long getValidClientId2(Long creatorId)
+			throws InputValidationException, InstanceNotFoundException, DuplicateInstanceException {
+
+		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI_2, VALID_ADDRESS,
+				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL_2, VALID_PHONENUMBER);
+		return clientService.createClient(clientData, creatorId).getId();
+
+	}
+
+	private Note getValidNote1(Long creatorId, Long clientId)
 			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
 
-		return noteService.createNote(creatorId, clientId, "", getValidNotelineDataList1(creatorId)).getId();
+		return noteService.createNote(creatorId, clientId, VALID_COMMENT, getValidNotelineDataList1(creatorId));
+	}
+	
+	private Note getValidNote2(Long creatorId, Long clientId)
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		return noteService.createNote(creatorId, clientId, VALID_COMMENT, getValidNotelineDataList2(creatorId));
 	}
 
 	@Test
-	public void testcreateAdnFindById()
+	public void testcreateAdnFindNoteAndNotelineById()
 			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
 
 		Long creatorId = getValidUserId();
 		Long clientId = getValidClientId(creatorId);
-
-		Note note = noteService.createNote(creatorId, clientId, "", getValidNotelineDataList1(creatorId));
-
-		noteService.removeNoteLine(note.getId(), note.getNotelines().get(note.getNotelines().size()-1).getNotelineId());
-
-		noteService.findNotelineById(note.getId(), note.getNotelines().get(note.getNotelines().size()-1).getNotelineId());
-
+		Note note = getValidNote1(creatorId, clientId);
 		Note noteSearch = noteService.findNoteById(note.getId());
-		
-		
+
+		Noteline noteline = note.getNotelines().get(0);
+		Noteline notelineSearch = noteService.findNotelineById(note.getId(), noteline.getNotelineId());
 
 		assertEquals(note.getId(), noteSearch.getId());
+		assertEquals(note.getNotelines().size(), noteSearch.getNotelines().size());
+
+		assertEquals(noteline.getNote().getId(), notelineSearch.getNote().getId());
+		assertEquals(noteline.getNotelineId(), notelineSearch.getNotelineId());
 
 	}
 
+	@Test(expected = InputValidationException.class)
+	public void testCreate0amount()
+			throws InstanceNotFoundException, InputValidationException, DuplicateInstanceException {
+		Long creatorId = getValidUserId();
+		Long clientId = getValidClientId(creatorId);
+		noteService.createNote(creatorId, clientId, VALID_COMMENT, getInvalidNotelineDataList1(creatorId));
+
+	}
+
+	@Test(expected = InputValidationException.class)
+	public void testCreateGreaterDiscount()
+			throws InstanceNotFoundException, InputValidationException, DuplicateInstanceException {
+		Long creatorId = getValidUserId();
+		Long clientId = getValidClientId(creatorId);
+		noteService.createNote(creatorId, clientId, VALID_COMMENT, getInvalidNotelineDataList2(creatorId));
+
+	}
+
+	@Test(expected = InstanceNotFoundException.class)
+	public void testcreateAdnFindByIdNonExistenNote()
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		noteService.findNoteById((long) 0);
+
+	}
+
+	@Test(expected = InstanceNotFoundException.class)
+	public void testcreateAdnFindByIdNonExistenNoteline()
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		Long creatorId = getValidUserId();
+		Long clientId = getValidClientId(creatorId);
+		Long noteId = getValidNote1(creatorId, clientId).getId();
+
+		noteService.findNotelineById(noteId, (long) 5);
+
+	}
+
+	@Test
+	public void testModifyNote()
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		Long creatorId = getValidUserId();
+		Long clientId = getValidClientId(creatorId);
+		Note note = getValidNote1(creatorId, clientId);
+
+		assertEquals(note.getClient().getId(), clientId);
+		assertEquals(note.getComment(), VALID_COMMENT);
+
+		Long clientId2 = getValidClientId2(creatorId);
+		noteService.modifyNote(note.getId(), clientId2, VALID_COMMENT_2);
+		Note noteModified = noteService.findNoteById(note.getId());
+
+		assertEquals(noteModified.getClient().getId(), clientId2);
+		assertEquals(noteModified.getComment(), VALID_COMMENT_2);
+
+		noteService.modifyNote(note.getId(), clientId, null);
+		noteModified = noteService.findNoteById(note.getId());
+
+		assertEquals(noteModified.getClient().getId(), clientId);
+		assertEquals(noteModified.getComment(), VALID_COMMENT_2);
+
+	}
+
+	@Test(expected = InstanceNotFoundException.class)
+	public void testModifyNonExistenNote() throws InstanceNotFoundException, InputValidationException {
+		noteService.modifyNote((long) 0, null, null);
+
+	}
+
+	@Test(expected = InstanceNotFoundException.class)
+	public void testModifyNoteNonExistenClient()
+			throws InstanceNotFoundException, InputValidationException, DuplicateInstanceException {
+		Long creatorId = getValidUserId();
+		Long clientId = getValidClientId(creatorId);
+		Long noteId = getValidNote1(creatorId, clientId).getId();
+		noteService.modifyNote(noteId, clientId + 1, null);
+
+	}
+
+	@Test
+	public void testModifyNoteline()
+			throws InstanceNotFoundException, InputValidationException, DuplicateInstanceException {
+		Long creatorId = getValidUserId();
+		Long clientId = getValidClientId(creatorId);
+		Note note = getValidNote1(creatorId, clientId);
+		NotelineData notelineData = new NotelineData(50, 24, VALID_COMMENT_2,
+				note.getNotelines().get(0).getProduct().getReference());
+		noteService.modifyNoteLine(note.getId(), note.getNotelines().get(0).getNotelineId(), notelineData);
+		Noteline noteline = noteService.findNotelineById(note.getId(), note.getNotelines().get(0).getNotelineId());
+
+		assertEquals(noteline.getAmount(), 50);
+		assertEquals(noteline.getDiscount(), 24);
+		assertEquals(noteline.getComment(), VALID_COMMENT_2);
+
+	}
+
+	@Test(expected = InputValidationException.class)
+	public void testModifyNoteline0amount()
+			throws InstanceNotFoundException, InputValidationException, DuplicateInstanceException {
+		Long creatorId = getValidUserId();
+		Long clientId = getValidClientId(creatorId);
+		Note note = getValidNote1(creatorId, clientId);
+		NotelineData notelineData = new NotelineData(0, VALID_PRODUCT_DISCOUNT_2, VALID_COMMENT,
+				note.getNotelines().get(0).getProduct().getReference());
+		noteService.modifyNoteLine(note.getId(), note.getNotelines().get(0).getNotelineId(), notelineData);
+
+	}
+
+	@Test(expected = InputValidationException.class)
+	public void testModifyNotelineGreaterDiscount()
+			throws InstanceNotFoundException, InputValidationException, DuplicateInstanceException {
+		Long creatorId = getValidUserId();
+		Long clientId = getValidClientId(creatorId);
+		Note note = getValidNote1(creatorId, clientId);
+		NotelineData notelineData = new NotelineData(2, 101, VALID_COMMENT,
+				note.getNotelines().get(0).getProduct().getReference());
+		noteService.modifyNoteLine(note.getId(), note.getNotelines().get(0).getNotelineId(), notelineData);
+
+	}
+
+	@Test(expected = InstanceNotFoundException.class)
+	public void testRemoveNote()
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		Long creatorId = getValidUserId();
+		Long clientId = getValidClientId(creatorId);
+		Long noteId = getValidNote1(creatorId, clientId).getId();
+
+		noteService.findNoteById(noteId);
+		noteService.removeNote(noteId);
+		noteService.findNoteById(noteId);
+	}
+
+	@Test(expected = InstanceNotFoundException.class)
+	public void testRemoveNoteline()
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		Long creatorId = getValidUserId();
+		Long clientId = getValidClientId(creatorId);
+		Note note = getValidNote1(creatorId, clientId);
+		assertEquals(note.getNotelines().size(), 2);
+		Long notelineId = note.getNotelines().get(0).getNotelineId();
+
+		noteService.removeNoteLine(note.getId(), notelineId);
+
+		Note noteSearch = noteService.findNoteById(note.getId());
+		assertEquals(noteSearch.getNotelines().size(), 1);
+
+		noteService.findNotelineById(note.getId(), notelineId);
+
+	}
+
+	@Test
+	public void testFindNotelinesByNoteId()
+			throws InstanceNotFoundException, InputValidationException, DuplicateInstanceException {
+		Long creatorId = getValidUserId();
+		Long clientId = getValidClientId(creatorId);
+		Note note = getValidNote1(creatorId, clientId);
+		List<Noteline> notelines = noteService.findNotelinesByNoteId(note.getId());
+
+		assertEquals(note.getNotelines().size(), notelines.size());
+		assertEquals(note.getNotelines().get(0), notelines.get(0));
+		assertEquals(note.getNotelines().get(1), notelines.get(1));
+
+	}
+	
+	@Test
+	public void testFindNotelinesByProdcutId()
+			throws InstanceNotFoundException, InputValidationException, DuplicateInstanceException {
+		Long creatorId = getValidUserId();
+		Long clientId = getValidClientId(creatorId);
+		Note note1 = getValidNote1(creatorId, clientId);
+		Note note2 = getValidNote2(creatorId, clientId);
+		Long productId1 = note1.getNotelines().get(0).getProduct().getId();		
+		List<Noteline> notelines = noteService.findNotelinesByProductId(productId1);
+		assertEquals(notelines.size(), 1);
+		assertEquals(notelines.get(0).getProduct().getId(), productId1);
+		assertEquals(notelines.get(0).getNote().getId(), note1.getId());
+		
+		Long productId2 = note2.getNotelines().get(0).getProduct().getId();		
+		notelines = noteService.findNotelinesByProductId(productId2);
+		assertEquals(notelines.size(), 2);
+		assertEquals(notelines.get(0).getProduct().getId(), productId2);
+		assertEquals(notelines.get(1).getProduct().getId(), productId2);
+		
+
+	}
 }

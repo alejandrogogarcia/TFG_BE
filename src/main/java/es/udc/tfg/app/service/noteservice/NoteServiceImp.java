@@ -19,6 +19,7 @@ import es.udc.tfg.app.model.user.User;
 import es.udc.tfg.app.model.user.UserDao;
 import es.udc.tfg.app.util.exceptions.InputValidationException;
 import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
+import es.udc.tfg.app.util.validator.ValidatorProperties;
 
 @Transactional
 @Service
@@ -41,7 +42,7 @@ public class NoteServiceImp implements NoteService {
 
 	@Override
 	public Note createNote(Long creatorId, Long clientId, String comment, List<NotelineData> notelineDataList)
-			throws InstanceNotFoundException {
+			throws InstanceNotFoundException, InputValidationException {
 
 		User creator = userDao.find(creatorId);
 		Client client = clientDao.find(clientId);
@@ -59,8 +60,15 @@ public class NoteServiceImp implements NoteService {
 
 			Product product = productDao.findByReference(notelineData.getReference());
 			Long notelineId = (long) (notelineDataList.indexOf(notelineData) + 1);
-			noteline = new Noteline(notelineId, product.getPrice(), notelineData.getAmount(),
-					notelineData.getDiscount(), product, note);
+			Integer amount = notelineData.getAmount();
+			if (amount == 0) {
+				throw new InputValidationException("amount", "It cannot be 0");
+			}
+			Integer discount = notelineData.getDiscount();
+			if (discount < 0 || discount > 100) {
+				throw new InputValidationException("discount", "It cannot be less than 0 or greater than 100");
+			}
+			noteline = new Noteline(notelineId, product.getPrice(), amount, discount, product, note);
 			String commentNoteline = notelineData.getComment();
 			if (commentNoteline != null) {
 				if (commentNoteline.trim().length() != 0) {
@@ -75,12 +83,14 @@ public class NoteServiceImp implements NoteService {
 	}
 
 	@Override
-	public void modifyNote(Long noteId, Long clientId, String comment)
+	public Note modifyNote(Long noteId, Long clientId, String comment)
 			throws InstanceNotFoundException, InputValidationException {
 
 		Note note = noteDao.find(noteId);
-		Client client = clientDao.find(clientId);
-		note.setClient(client);
+		if (note.getClient().getId() != clientId) {
+			Client client = clientDao.find(clientId);
+			note.setClient(client);
+		}
 		if (comment != null) {
 			if (comment.trim().length() != 0) {
 				note.setComment(comment);
@@ -88,6 +98,7 @@ public class NoteServiceImp implements NoteService {
 		}
 		noteDao.save(note);
 
+		return note;
 	}
 
 	@Override
@@ -95,16 +106,29 @@ public class NoteServiceImp implements NoteService {
 			throws InstanceNotFoundException, InputValidationException {
 
 		Noteline noteline = notelineDao.find(noteId, noteLineId);
-
-		if (notelineData.getComment() == null) {
+		
+		String productReference = notelineData.getReference();
+		ValidatorProperties.validateString(productReference);
+		if (noteline.getProduct().getReference() != productReference) {
 			Product product = productDao.findByReference(notelineData.getReference());
-			noteline.setComment(null);
 			noteline.setPrice(product.getPrice());
-			noteline.setAmount(notelineData.getAmount());
-			noteline.setDiscount(notelineData.getDiscount());
 			noteline.setProduct(product);
-		} else {
-			noteline.setComment(notelineData.getComment());
+		}
+		Integer amount = notelineData.getAmount();
+		if (amount == 0) {
+			throw new InputValidationException("amount", "It cannot be 0");
+		}
+		noteline.setAmount(amount);
+		Integer discount = notelineData.getDiscount();
+		if (discount < 0 || discount > 100) {
+			throw new InputValidationException("discount", "It cannot be less than 0 or greater than 100");
+		}
+		noteline.setDiscount(discount);
+		String comment = notelineData.getComment();
+		if (comment != null) {
+			if (comment != noteline.getComment()) {
+				noteline.setComment(comment);
+			}
 		}
 	}
 
@@ -120,7 +144,10 @@ public class NoteServiceImp implements NoteService {
 
 	@Override
 	public void removeNoteLine(Long noteId, Long noteLineId) throws InstanceNotFoundException {
+		Noteline noteline = notelineDao.find(noteId, noteLineId);
 		notelineDao.remove(noteId, noteLineId);
+		Note note = noteDao.find(noteId);
+		note.removeNoteline(noteline);
 	}
 
 	@Override

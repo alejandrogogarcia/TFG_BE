@@ -62,7 +62,7 @@ public class NotelineDaoImpl extends GenericDaoImpl<Noteline, Long> implements N
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Noteline> findByNoteId(Long noteId) {
-		return (List<Noteline>) this.em.createQuery("SELECT n FROM Noteline n WHERE n.noteId like :noteId")
+		return (List<Noteline>) this.em.createQuery("SELECT n FROM Noteline n WHERE n.note.id like :noteId")
 				.setParameter("noteId", noteId).getResultList();
 	}
 

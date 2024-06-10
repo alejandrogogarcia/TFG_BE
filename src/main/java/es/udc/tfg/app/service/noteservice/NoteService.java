@@ -7,32 +7,35 @@ import es.udc.tfg.app.model.noteline.Noteline;
 import es.udc.tfg.app.util.exceptions.InputValidationException;
 import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
 
-public interface NoteService{
-	
-	public Note createNote(Long creatorId, Long clientId, String comment, List<NotelineData> notelineDataList) throws InstanceNotFoundException;
-	
-	public void modifyNote(Long noteId, Long clientId, String comment) throws InstanceNotFoundException, InputValidationException;
-		
-	public void modifyNoteLine(Long noteLineId, Long noteId, NotelineData notelineData)throws InstanceNotFoundException, InputValidationException;
-	
+public interface NoteService {
+
+	public Note createNote(Long creatorId, Long clientId, String comment, List<NotelineData> notelineDataList)
+			throws InstanceNotFoundException, InputValidationException;
+
+	public Note modifyNote(Long noteId, Long clientId, String comment)
+			throws InstanceNotFoundException, InputValidationException;
+
+	public void modifyNoteLine(Long noteId, Long noteLineId, NotelineData notelineData)
+			throws InstanceNotFoundException, InputValidationException;
+
 	public Note findNoteById(Long noteId) throws InstanceNotFoundException;
-	
+
 	public void removeNote(Long noteId) throws InstanceNotFoundException;
-	
+
 	public void removeNoteLine(Long noteId, Long notelineId) throws InstanceNotFoundException;
-		
+
 	public Noteline findNotelineById(Long noteId, Long notelineId) throws InstanceNotFoundException;
-	
+
 	public List<Noteline> findNotelinesByNoteId(Long noteId) throws InstanceNotFoundException;
-	
+
 	public List<Noteline> findNotelinesByProductId(Long productId) throws InstanceNotFoundException;
 
 	public List<Note> findNotesByClientId(Long clientId);
-	
+
 	public List<Note> findNotesByInvoiceId(Long invoiceId);
-	
+
 	public List<Note> findNotesByCreatorId(Long creatorId);
-	
+
 	public List<Note> findAllNotes();
 
 }

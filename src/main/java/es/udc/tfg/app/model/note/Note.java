@@ -157,5 +157,9 @@ public class Note {
 	public void addNoteline(Noteline noteline) {
 		this.notelines.add(noteline);
 	}
+	
+	public void removeNoteline(Noteline noteline) {
+		this.notelines.remove(noteline);
+	}
 
 }
