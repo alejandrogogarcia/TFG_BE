@@ -18,7 +18,6 @@ public class RoleConversor {
 	public static UserRole stringToRole(String strRole) throws InputValidationException {
 
 		UserRole role = null;
-		System.out.println("+++++++++++++++++++++++++++" + strRole);
 		try {
 			role = UserRole.valueOf(strRole);
 		} catch (IllegalArgumentException e) {

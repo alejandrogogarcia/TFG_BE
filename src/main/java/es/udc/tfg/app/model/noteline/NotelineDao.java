@@ -17,4 +17,6 @@ public interface NotelineDao extends GenericDao<Noteline, Long> {
 
 	public List<Noteline> findAll();
 
+	void remove(NotelinePK PK) throws InstanceNotFoundException;
+
 }

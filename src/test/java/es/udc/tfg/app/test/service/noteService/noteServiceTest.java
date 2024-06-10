@@ -3,7 +3,6 @@ package es.udc.tfg.app.test.service.noteService;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -12,13 +11,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import es.udc.tfg.app.model.note.Note;
-import es.udc.tfg.app.model.noteline.Noteline;
-import es.udc.tfg.app.model.noteline.NotelineDao;
-import es.udc.tfg.app.model.product.Product;
-import es.udc.tfg.app.model.user.User;
 import es.udc.tfg.app.service.categoryservice.CategoryData;
 import es.udc.tfg.app.service.categoryservice.CategoryService;
 import es.udc.tfg.app.service.clientservice.ClientData;
@@ -29,6 +25,7 @@ import es.udc.tfg.app.service.productservice.ProductData;
 import es.udc.tfg.app.service.productservice.ProductService;
 import es.udc.tfg.app.service.userservice.RegisterData;
 import es.udc.tfg.app.service.userservice.UserService;
+import es.udc.tfg.app.util.exceptions.ConfirmPasswordNotMatchException;
 import es.udc.tfg.app.util.exceptions.DuplicateInstanceException;
 import es.udc.tfg.app.util.exceptions.InputValidationException;
 import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
@@ -52,6 +49,8 @@ public class noteServiceTest {
 
 	@Autowired
 	ProductService productService;
+	
+	private final Long NOTEIDTEST  = (long) 0;
 
 	private final String VALID_EMAIL = "email3@udc.es";
 	private final String VALID_DNI = "12345677A";
@@ -145,16 +144,21 @@ public class noteServiceTest {
 	@Test
 	public void testcreateAdnFindById()
 			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
-		
+
 		Long creatorId = getValidUserId();
 		Long clientId = getValidClientId(creatorId);
+
 		Note note = noteService.createNote(creatorId, clientId, "", getValidNotelineDataList1(creatorId));
+
+		noteService.removeNoteLine(note.getId(), note.getNotelines().get(note.getNotelines().size()-1).getNotelineId());
+
+		noteService.findNotelineById(note.getId(), note.getNotelines().get(note.getNotelines().size()-1).getNotelineId());
 
 		Note noteSearch = noteService.findNoteById(note.getId());
 		
-		System.out.println(noteService.findNotelineById(noteSearch.getId(), (long) 2));
+		
 
-		//assertEquals(note.getId(), noteSearch.getId());
+		assertEquals(note.getId(), noteSearch.getId());
 
 	}
 

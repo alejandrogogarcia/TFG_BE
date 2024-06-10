@@ -1,5 +1,6 @@
 package es.udc.tfg.app.model.noteline;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -17,6 +18,7 @@ import es.udc.tfg.app.model.product.Product;
 public class Noteline {
 
 	@Id
+	@Column(name = "noteline_id")
 	private Long notelineId;
 
 	private Float price;

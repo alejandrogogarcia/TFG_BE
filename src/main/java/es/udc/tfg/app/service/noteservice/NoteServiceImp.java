@@ -120,17 +120,12 @@ public class NoteServiceImp implements NoteService {
 
 	@Override
 	public void removeNoteLine(Long noteId, Long noteLineId) throws InstanceNotFoundException {
-
-//		NotelinePK id = new NotelinePK();
-//		id.setId(noteLineId);
-//		id.setNoteId(noteId);
-		// REVISAR
-		// notelineDao.remove(id);
-
+		notelineDao.remove(noteId, noteLineId);
 	}
 
 	@Override
 	public Noteline findNotelineById(Long noteId, Long notelineId) throws InstanceNotFoundException {
+		System.out.println("Ejecutando service Noteline");
 		return notelineDao.find(noteId, notelineId);
 	}
 
