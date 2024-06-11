@@ -106,7 +106,7 @@ public class NoteServiceImp implements NoteService {
 			throws InstanceNotFoundException, InputValidationException {
 
 		Noteline noteline = notelineDao.find(noteId, noteLineId);
-		
+
 		String productReference = notelineData.getReference();
 		ValidatorProperties.validateString(productReference);
 		if (noteline.getProduct().getReference() != productReference) {
@@ -178,6 +178,16 @@ public class NoteServiceImp implements NoteService {
 	@Override
 	public List<Note> findNotesByCreatorId(Long creatorId) {
 		return noteDao.findByCreatorId(creatorId);
+	}
+
+	@Override
+	public List<Note> findAllNoBilledNotes() {
+		return noteDao.findAllNoBilled();
+	}
+
+	@Override
+	public List<Note> findAllBilledNotes() {
+		return noteDao.findAllBilled();
 	}
 
 	@Override

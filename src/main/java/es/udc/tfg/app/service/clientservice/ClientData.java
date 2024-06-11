@@ -3,9 +3,9 @@ package es.udc.tfg.app.service.clientservice;
 import java.util.Calendar;
 
 public class ClientData {
-	
+
 	private String firstName;
-	
+
 	private String lastName;
 
 	private String dni;
@@ -21,15 +21,17 @@ public class ClientData {
 	private String email;
 
 	private Long phoneNumber;
-	
+
 	@SuppressWarnings("unused")
 	private Calendar modifyDate;
+
+	private String tax;
 
 	public ClientData() {
 	}
 
-	public ClientData(String firstName, String lastName, String dni, String address, String city, Long postCode, String province,
-			String email, Long phoneNumber) {
+	public ClientData(String firstName, String lastName, String dni, String address, String city, Long postCode,
+			String province, String email, Long phoneNumber, String tax) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dni = dni;
@@ -40,6 +42,7 @@ public class ClientData {
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.modifyDate = Calendar.getInstance();
+		this.tax = tax;
 	}
 
 	public String getFirstName() {
@@ -112,6 +115,14 @@ public class ClientData {
 
 	public void setPhoneNumber(Long phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public String getTax() {
+		return tax;
+	}
+
+	public void setTax(String tax) {
+		this.tax = tax;
 	}
 
 }

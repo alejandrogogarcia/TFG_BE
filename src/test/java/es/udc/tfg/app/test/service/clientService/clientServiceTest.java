@@ -55,6 +55,9 @@ public class clientServiceTest {
 	private final String VALID_USER_TYPE_2 = "ADMIN";
 	private final String VALID_USER_IMAGE = "asfasdgasdg";
 	private final String VALID_USER_IMAGE_2 = "ertfbdfhf";
+	private final String VALID_USER_TAX = "VAT";
+	private final String VALID_USER_TAX_2 = "REDUCED";
+	private final String INVALID_USER_TAX = "ERROR";
 
 	private Long getValidUserId() throws InputValidationException, DuplicateInstanceException {
 		System.out.println("Creado el usuario");
@@ -87,12 +90,12 @@ public class clientServiceTest {
 
 	private ClientData getValidClientData() {
 		return new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_ADDRESS, VALID_CITY, VALID_POSTCODE,
-				VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER);
+				VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 	}
 
 	private ClientData getValidClientData2() {
 		return new ClientData(VALID_FIRST_NAME_2, VALID_LAST_NAME_2, VALID_DNI_2, VALID_ADDRESS_2, VALID_CITY_2,
-				VALID_POSTCODE_2, VALID_PROVINCE_2, VALID_EMAIL_2, VALID_PHONENUMBER_2);
+				VALID_POSTCODE_2, VALID_PROVINCE_2, VALID_EMAIL_2, VALID_PHONENUMBER_2, VALID_USER_TAX_2);
 	}
 
 	private Client getValidClient(Long creatorId, ClientData clientData)
@@ -147,7 +150,7 @@ public class clientServiceTest {
 
 		Long creatorId = getValidUserId();
 		ClientData clientData = new ClientData(INVALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_ADDRESS,
-				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER);
+				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		clientService.createClient(clientData, creatorId);
 	}
 
@@ -157,7 +160,7 @@ public class clientServiceTest {
 
 		Long creatorId = getValidUserId();
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, INVALID_LAST_NAME, VALID_DNI, VALID_ADDRESS,
-				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER);
+				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		clientService.createClient(clientData, creatorId);
 	}
 
@@ -167,7 +170,7 @@ public class clientServiceTest {
 
 		Long creatorId = getValidUserId();
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, INVALID_DNI, VALID_ADDRESS,
-				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER);
+				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		clientService.createClient(clientData, creatorId);
 	}
 
@@ -177,7 +180,7 @@ public class clientServiceTest {
 
 		Long creatorId = getValidUserId();
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, null, VALID_CITY,
-				VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER);
+				VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		clientService.createClient(clientData, creatorId);
 	}
 
@@ -187,7 +190,7 @@ public class clientServiceTest {
 
 		Long creatorId = getValidUserId();
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_ADDRESS, null,
-				VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER);
+				VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		clientService.createClient(clientData, creatorId);
 	}
 
@@ -197,7 +200,7 @@ public class clientServiceTest {
 
 		Long creatorId = getValidUserId();
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_ADDRESS, VALID_CITY,
-				INVALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER);
+				INVALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		clientService.createClient(clientData, creatorId);
 	}
 
@@ -207,7 +210,7 @@ public class clientServiceTest {
 
 		Long creatorId = getValidUserId();
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_ADDRESS, VALID_CITY,
-				VALID_POSTCODE, INVALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER);
+				VALID_POSTCODE, INVALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		clientService.createClient(clientData, creatorId);
 	}
 
@@ -217,7 +220,7 @@ public class clientServiceTest {
 
 		Long creatorId = getValidUserId();
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_ADDRESS, VALID_CITY,
-				VALID_POSTCODE, VALID_PROVINCE, INVALID_EMAIL, VALID_PHONENUMBER);
+				VALID_POSTCODE, VALID_PROVINCE, INVALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		clientService.createClient(clientData, creatorId);
 	}
 
@@ -227,7 +230,17 @@ public class clientServiceTest {
 
 		Long creatorId = getValidUserId();
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_ADDRESS, VALID_CITY,
-				VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, INVALID_PHONENUMBER);
+				VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, INVALID_PHONENUMBER, VALID_USER_TAX);
+		clientService.createClient(clientData, creatorId);
+	}
+
+	@Test(expected = InputValidationException.class)
+	public void testCreateInvalidTax()
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		Long creatorId = getValidUserId();
+		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_ADDRESS, VALID_CITY,
+				VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, INVALID_USER_TAX);
 		clientService.createClient(clientData, creatorId);
 	}
 
@@ -248,6 +261,8 @@ public class clientServiceTest {
 		assertEquals(client.getProvince(), clientDataInicial.getProvince());
 		assertEquals(client.getEmail(), clientDataInicial.getEmail());
 		assertEquals(client.getPhoneNumber(), clientDataInicial.getPhoneNumber());
+		assertEquals(client.getTax().toString(), clientDataInicial.getTax());
+
 
 		ClientData clientDataModificado = getValidClientData2();
 		clientService.updateClient(client.getId(), clientDataModificado);
@@ -262,6 +277,8 @@ public class clientServiceTest {
 		assertEquals(client.getProvince(), clientDataModificado.getProvince());
 		assertEquals(client.getEmail(), clientDataModificado.getEmail());
 		assertEquals(client.getPhoneNumber(), clientDataModificado.getPhoneNumber());
+		assertEquals(client.getTax().toString(), clientDataModificado.getTax());
+
 	}
 
 	@Test(expected = InstanceNotFoundException.class)
@@ -277,7 +294,7 @@ public class clientServiceTest {
 
 		Long clientId = getValidClient(getValidUserId(), getValidClientData()).getId();
 		ClientData clientData = new ClientData(INVALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_ADDRESS,
-				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER);
+				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		clientService.updateClient(clientId, clientData);
 	}
 
@@ -287,7 +304,7 @@ public class clientServiceTest {
 
 		Long clientId = getValidClient(getValidUserId(), getValidClientData()).getId();
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, INVALID_LAST_NAME, VALID_DNI, VALID_ADDRESS,
-				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER);
+				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		clientService.updateClient(clientId, clientData);
 	}
 
@@ -297,7 +314,7 @@ public class clientServiceTest {
 
 		Long clientId = getValidClient(getValidUserId(), getValidClientData()).getId();
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, INVALID_DNI, VALID_ADDRESS,
-				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER);
+				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		clientService.updateClient(clientId, clientData);
 	}
 
@@ -307,7 +324,7 @@ public class clientServiceTest {
 
 		Long clientId = getValidClient(getValidUserId(), getValidClientData()).getId();
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, INVALID_ADDRESS,
-				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER);
+				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		clientService.updateClient(clientId, clientData);
 	}
 
@@ -317,7 +334,7 @@ public class clientServiceTest {
 
 		Long clientId = getValidClient(getValidUserId(), getValidClientData()).getId();
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_ADDRESS,
-				INVALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER);
+				INVALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		clientService.updateClient(clientId, clientData);
 	}
 
@@ -327,7 +344,7 @@ public class clientServiceTest {
 
 		Long clientId = getValidClient(getValidUserId(), getValidClientData()).getId();
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_ADDRESS, VALID_CITY,
-				INVALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER);
+				INVALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		clientService.updateClient(clientId, clientData);
 	}
 
@@ -337,7 +354,7 @@ public class clientServiceTest {
 
 		Long clientId = getValidClient(getValidUserId(), getValidClientData()).getId();
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_ADDRESS, VALID_CITY,
-				VALID_POSTCODE, INVALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER);
+				VALID_POSTCODE, INVALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		clientService.updateClient(clientId, clientData);
 	}
 
@@ -347,7 +364,7 @@ public class clientServiceTest {
 
 		Long clientId = getValidClient(getValidUserId(), getValidClientData()).getId();
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_ADDRESS, VALID_CITY,
-				VALID_POSTCODE, VALID_PROVINCE, INVALID_EMAIL, VALID_PHONENUMBER);
+				VALID_POSTCODE, VALID_PROVINCE, INVALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		clientService.updateClient(clientId, clientData);
 	}
 
@@ -357,7 +374,17 @@ public class clientServiceTest {
 
 		Long clientId = getValidClient(getValidUserId(), getValidClientData()).getId();
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_ADDRESS, VALID_CITY,
-				VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, INVALID_PHONENUMBER);
+				VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, INVALID_PHONENUMBER, VALID_USER_TAX);
+		clientService.updateClient(clientId, clientData);
+	}
+	
+	@Test(expected = InputValidationException.class)
+	public void testUpdateInvalidTax()
+			throws InputValidationException, DuplicateInstanceException, InstanceNotFoundException {
+
+		Long clientId = getValidClient(getValidUserId(), getValidClientData()).getId();
+		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_ADDRESS, VALID_CITY,
+				VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, INVALID_USER_TAX);
 		clientService.updateClient(clientId, clientData);
 	}
 

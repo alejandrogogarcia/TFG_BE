@@ -70,6 +70,7 @@ public class Note {
 		this.createDate = Calendar.getInstance();
 		this.client = client;
 		this.creator = creator;
+		this.invoice = null;
 	}
 
 	// ....... Getters & Setters ......./
@@ -157,7 +158,7 @@ public class Note {
 	public void addNoteline(Noteline noteline) {
 		this.notelines.add(noteline);
 	}
-	
+
 	public void removeNoteline(Noteline noteline) {
 		this.notelines.remove(noteline);
 	}

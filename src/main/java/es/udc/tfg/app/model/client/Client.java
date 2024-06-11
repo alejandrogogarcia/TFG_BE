@@ -5,7 +5,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +20,7 @@ import javax.persistence.Table;
 import es.udc.tfg.app.model.invoice.Invoice;
 import es.udc.tfg.app.model.note.Note;
 import es.udc.tfg.app.model.user.User;
+import es.udc.tfg.app.util.enums.Taxes;
 
 @Entity
 @Table(name = "clients")
@@ -45,8 +49,12 @@ public class Client {
 	private Long phoneNumber;
 
 	private Calendar createDate;
-	
+
 	private Calendar modifyDate;
+
+	@Column(columnDefinition = "ENUM('VAT','REDUCED','EXEMPT')")
+	@Enumerated(EnumType.STRING)
+	private Taxes tax;
 
 	// ....... Relaciones N a 1 ......./
 
@@ -68,7 +76,7 @@ public class Client {
 	}
 
 	public Client(String firstName, String lastName, String dni, String address, String city, Long postCode,
-			String province, String email, Long phoneNumber, User creator) {
+			String province, String email, Long phoneNumber, User creator, Taxes tax) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dni = dni;
@@ -81,8 +89,9 @@ public class Client {
 		this.createDate = Calendar.getInstance();
 		this.modifyDate = Calendar.getInstance();
 		this.creator = creator;
+		this.tax = tax;
 	}
-	
+
 	// ....... Getters & Setters ......./
 
 	public Long getId() {
@@ -172,11 +181,19 @@ public class Client {
 	public void setCreateDate(Calendar createDate) {
 		this.createDate = createDate;
 	}
-	
+
 	public Calendar getModifyDate() {
 		return modifyDate;
 	}
-	
+
+	public Taxes getTax() {
+		return tax;
+	}
+
+	public void setTax(Taxes tax) {
+		this.tax = tax;
+	}
+
 	// ....... Relaciones N a 1 ......./
 
 	public void setModifyDate(Calendar modifyDate) {
@@ -190,7 +207,7 @@ public class Client {
 	public void setCreator(User creator) {
 		this.creator = creator;
 	}
-	
+
 	// ....... Relaciones 1 a N ......./
 
 	public List<Invoice> getInvoices() {
@@ -208,6 +225,5 @@ public class Client {
 	public void setNotes(List<Note> notes) {
 		this.notes = notes;
 	}
-	
 
 }

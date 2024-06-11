@@ -9,8 +9,8 @@ import es.udc.tfg.app.model.genericDao.GenericDaoImpl;
 
 @Repository
 @Transactional
-public class NoteDaoImpl extends GenericDaoImpl<Note, Long> implements NoteDao{
-	
+public class NoteDaoImpl extends GenericDaoImpl<Note, Long> implements NoteDao {
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Note> findByClientId(Long clientId) {
@@ -21,28 +21,32 @@ public class NoteDaoImpl extends GenericDaoImpl<Note, Long> implements NoteDao{
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Note> findByClientId(Long clientId, boolean invoiced) {
-		
+
 		if (invoiced) {
-			return (List<Note>) this.em.createQuery("SELECT n FROM Note n WHERE n.client.id like :clientId AND  n.invoice IS NOT NULL")
+			return (List<Note>) this.em
+					.createQuery("SELECT n FROM Note n WHERE n.client.id like :clientId AND  n.invoice IS NOT NULL")
 					.setParameter("clientId", clientId).getResultList();
 		} else {
-			return (List<Note>) this.em.createQuery("SELECT n FROM Note n WHERE n.client.id like :clientId AND  n.invoice IS NULL")
+			return (List<Note>) this.em
+					.createQuery("SELECT n FROM Note n WHERE n.client.id like :clientId AND  n.invoice IS NULL")
 					.setParameter("clientId", clientId).getResultList();
 		}
-		
+
 	}
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Note> findByClientIdAndInvoiceId(Long clientId, Long invoiceId) {
-		return (List<Note>) this.em.createQuery("SELECT n FROM Note n WHERE n.client.id like :clientId AND n.invoice.id like :invoiceId ")
+		return (List<Note>) this.em
+				.createQuery("SELECT n FROM Note n WHERE n.client.id like :clientId AND n.invoice.id like :invoiceId ")
 				.setParameter("clientId", clientId).setParameter("invoiceId", invoiceId).getResultList();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Note> findByClientIdAndCreatorId(Long clientId, Long creatorId) {
-		return (List<Note>) this.em.createQuery("SELECT n FROM Note n WHERE n.client.id like :clientId AND n.creator.id like :creatorId ")
+		return (List<Note>) this.em
+				.createQuery("SELECT n FROM Note n WHERE n.client.id like :clientId AND n.creator.id like :creatorId ")
 				.setParameter("clientId", clientId).setParameter("creatorId", creatorId).getResultList();
 	}
 
@@ -60,12 +64,23 @@ public class NoteDaoImpl extends GenericDaoImpl<Note, Long> implements NoteDao{
 				.setParameter("invoiceId", invoiceId).getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Note> findAllBilled() {
+		return (List<Note>) this.em.createQuery("SELECT n FROM Note n WHERE n.invoice is NULL").getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Note> findAllNoBilled() {
+		return (List<Note>) this.em.createQuery("SELECT n FROM Note n WHERE n.invoice is NOT NULL").getResultList();
+
+	}
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Note> findAll() {
 		return (List<Note>) this.em.createQuery("SELECT n FROM Note n ORDER BY n.id").getResultList();
 	}
-
-	
 
 }

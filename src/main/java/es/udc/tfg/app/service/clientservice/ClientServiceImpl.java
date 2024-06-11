@@ -11,6 +11,8 @@ import es.udc.tfg.app.model.client.Client;
 import es.udc.tfg.app.model.client.ClientDao;
 import es.udc.tfg.app.model.user.User;
 import es.udc.tfg.app.model.user.UserDao;
+import es.udc.tfg.app.util.conversors.TaxConversor;
+import es.udc.tfg.app.util.enums.Taxes;
 import es.udc.tfg.app.util.exceptions.DuplicateInstanceException;
 import es.udc.tfg.app.util.exceptions.InputValidationException;
 import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
@@ -56,9 +58,10 @@ public class ClientServiceImpl implements ClientService {
 			ValidatorProperties.validateEmail(email);
 			Long phoneNumber = clientData.getPhoneNumber();
 			ValidatorProperties.validatePhoneNumbre(phoneNumber);
+			Taxes tax = TaxConversor.stringToTax(clientData.getTax());
 
 			Client client = new Client(firstName, lastName, dni, address, city, postCode, province, email, phoneNumber,
-					creator);
+					creator, tax);
 			clientDao.save(client);
 
 			return client;
@@ -73,7 +76,7 @@ public class ClientServiceImpl implements ClientService {
 		Client client = clientDao.find(clientId);
 
 		String dni = clientData.getDni();
-		if (dni != null && client.getDni() != dni) {
+		if (client.getDni() != dni) {
 			ValidatorProperties.validateDni(dni);
 			try {
 				clientDao.findByDni(dni);
@@ -85,59 +88,64 @@ public class ClientServiceImpl implements ClientService {
 		}
 
 		String firstName = clientData.getFirstName();
-		if (firstName != null && client.getFirstName() != firstName) {
+		if (client.getFirstName() != firstName) {
 			ValidatorProperties.validateString(firstName);
 		} else {
-			firstName = client.getFirstName();
+			firstName= client.getFirstName();
 		}
 
 		String lastName = clientData.getLastName();
-		if (lastName != null && client.getLastName() != lastName) {
+		if (client.getLastName() != lastName) {
 			ValidatorProperties.validateString(lastName);
 		} else {
-			lastName = client.getLastName();
+			lastName= client.getLastName();
 		}
 
 		String address = clientData.getAddress();
-		if (address != null && client.getAddress() != address) {
+		if (client.getAddress() != address) {
 			ValidatorProperties.validateString(address);
 		} else {
-			address = client.getAddress();
+			address= client.getAddress();
 		}
 
 		String city = clientData.getCity();
-		if (city != null && client.getCity() != city) {
+		if (client.getCity() != city) {
 			ValidatorProperties.validateString(city);
 		} else {
-			city = client.getCity();
+			city= client.getCity();
 		}
 
 		Long postCode = clientData.getPostCode();
-		if (city != null && client.getPostCode() != postCode) {
+		if (client.getPostCode() != postCode) {
 			ValidatorProperties.validatePostCode(postCode);
 		} else {
 			postCode = client.getPostCode();
 		}
 
 		String province = clientData.getProvince();
-		if (province != null && client.getProvince() != province) {
+		if (client.getProvince() != province) {
 			ValidatorProperties.validateString(province);
 		} else {
 			province = client.getProvince();
 		}
 
 		String email = clientData.getEmail();
-		if (email != null && client.getEmail() != email) {
+		if (client.getEmail() != email) {
 			ValidatorProperties.validateEmail(email);
 		} else {
 			email = client.getEmail();
 		}
 
 		Long phoneNumber = clientData.getPhoneNumber();
-		if (phoneNumber != null && client.getPhoneNumber() != phoneNumber) {
+		if (client.getPhoneNumber() != phoneNumber) {
 			ValidatorProperties.validatePhoneNumbre(phoneNumber);
 		} else {
-			phoneNumber = client.getPhoneNumber();
+			phoneNumber= client.getPhoneNumber();
+		}
+
+		Taxes tax = TaxConversor.stringToTax(clientData.getTax());
+		if (client.getTax() == tax) {
+			tax = client.getTax();
 		}
 
 		client.setDni(dni);
@@ -149,6 +157,7 @@ public class ClientServiceImpl implements ClientService {
 		client.setProvince(province);
 		client.setEmail(email);
 		client.setPhoneNumber(phoneNumber);
+		client.setTax(tax);
 		client.setModifyDate(Calendar.getInstance());
 
 	}

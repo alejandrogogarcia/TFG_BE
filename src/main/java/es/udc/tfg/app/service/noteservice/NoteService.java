@@ -32,9 +32,13 @@ public interface NoteService {
 
 	public List<Note> findNotesByClientId(Long clientId);
 
+	public List<Note> findNotesByCreatorId(Long creatorId);
+
 	public List<Note> findNotesByInvoiceId(Long invoiceId);
 
-	public List<Note> findNotesByCreatorId(Long creatorId);
+	public List<Note> findAllNoBilledNotes();
+
+	public List<Note> findAllBilledNotes();
 
 	public List<Note> findAllNotes();
 

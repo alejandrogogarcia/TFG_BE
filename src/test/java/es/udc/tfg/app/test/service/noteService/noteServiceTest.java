@@ -62,6 +62,7 @@ public class noteServiceTest {
 	private final String VALID_LANGUAGE = "ESP";
 	private final String VALID_USER_TYPE = "EMPLOYEE";
 	private final String VALID_USER_IMAGE = "asfasdgasdg";
+	private final String VALID_USER_TAX = "VAT";
 
 	private final String VALID_ADDRESS = "Lugar Nº3 Izq";
 	private final String VALID_CITY = "Ciudad nueva";
@@ -81,7 +82,6 @@ public class noteServiceTest {
 	private final Integer VALID_PRODUCT_DISCOUNT_2 = 5;
 	private final Integer VALID_PRODUCT_STOCK_1 = 5;
 	private final Integer VALID_PRODUCT_STOCK_2 = 20;
-	private final Integer INVALID_PRODUCT_STOCK = -20;
 
 	private final String VALID_NAME = "category 1";
 	private final String VALID_DESC = "category number 1";
@@ -154,7 +154,7 @@ public class noteServiceTest {
 			throws InputValidationException, InstanceNotFoundException, DuplicateInstanceException {
 
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI, VALID_ADDRESS, VALID_CITY,
-				VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER);
+				VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL, VALID_PHONENUMBER, VALID_USER_TAX);
 		return clientService.createClient(clientData, creatorId).getId();
 
 	}
@@ -163,7 +163,7 @@ public class noteServiceTest {
 			throws InputValidationException, InstanceNotFoundException, DuplicateInstanceException {
 
 		ClientData clientData = new ClientData(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DNI_2, VALID_ADDRESS,
-				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL_2, VALID_PHONENUMBER);
+				VALID_CITY, VALID_POSTCODE, VALID_PROVINCE, VALID_EMAIL_2, VALID_PHONENUMBER, VALID_USER_TAX);
 		return clientService.createClient(clientData, creatorId).getId();
 
 	}
@@ -490,7 +490,7 @@ public class noteServiceTest {
 		noteService.createNote(creatorId, clientId, VALID_COMMENT, notelineDataList2);
 		notes = noteService.findAllNotes();
 		assertEquals(notes.size(), 2);
-		
+
 		noteService.createNote(creatorId, clientId, VALID_COMMENT, notelineDataList1);
 		notes = noteService.findAllNotes();
 		assertEquals(notes.size(), 3);
