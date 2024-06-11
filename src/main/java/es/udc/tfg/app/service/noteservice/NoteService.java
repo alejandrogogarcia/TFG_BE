@@ -26,9 +26,9 @@ public interface NoteService {
 
 	public Noteline findNotelineById(Long noteId, Long notelineId) throws InstanceNotFoundException;
 
-	public List<Noteline> findNotelinesByNoteId(Long noteId) throws InstanceNotFoundException;
+	public List<Noteline> findNotelinesByNoteId(Long noteId);
 
-	public List<Noteline> findNotelinesByProductId(Long productId) throws InstanceNotFoundException;
+	public List<Noteline> findNotelinesByProductId(Long productId);
 
 	public List<Note> findNotesByClientId(Long clientId);
 

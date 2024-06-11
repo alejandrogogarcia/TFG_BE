@@ -152,17 +152,16 @@ public class NoteServiceImp implements NoteService {
 
 	@Override
 	public Noteline findNotelineById(Long noteId, Long notelineId) throws InstanceNotFoundException {
-		System.out.println("Ejecutando service Noteline");
 		return notelineDao.find(noteId, notelineId);
 	}
 
 	@Override
-	public List<Noteline> findNotelinesByNoteId(Long noteId) throws InstanceNotFoundException {
+	public List<Noteline> findNotelinesByNoteId(Long noteId) {
 		return notelineDao.findByNoteId(noteId);
 	}
 
 	@Override
-	public List<Noteline> findNotelinesByProductId(Long productId) throws InstanceNotFoundException {
+	public List<Noteline> findNotelinesByProductId(Long productId) {
 		return notelineDao.findByProductId(productId);
 	}
 

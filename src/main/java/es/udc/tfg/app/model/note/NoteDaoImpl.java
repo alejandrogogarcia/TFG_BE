@@ -63,7 +63,7 @@ public class NoteDaoImpl extends GenericDaoImpl<Note, Long> implements NoteDao{
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Note> findAll() {
-		return (List<Note>) this.em.createQuery("SELECT n FROM Note n ORDER BY n.id");
+		return (List<Note>) this.em.createQuery("SELECT n FROM Note n ORDER BY n.id").getResultList();
 	}
 
 	
