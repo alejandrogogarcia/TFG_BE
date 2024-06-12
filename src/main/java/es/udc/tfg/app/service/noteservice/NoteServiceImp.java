@@ -19,6 +19,7 @@ import es.udc.tfg.app.model.user.User;
 import es.udc.tfg.app.model.user.UserDao;
 import es.udc.tfg.app.util.exceptions.InputValidationException;
 import es.udc.tfg.app.util.exceptions.InstanceNotFoundException;
+import es.udc.tfg.app.util.exceptions.ProductInsufficientStockException;
 import es.udc.tfg.app.util.validator.ValidatorProperties;
 
 @Transactional
@@ -42,7 +43,7 @@ public class NoteServiceImp implements NoteService {
 
 	@Override
 	public Note createNote(Long creatorId, Long clientId, String comment, List<NotelineData> notelineDataList)
-			throws InstanceNotFoundException, InputValidationException {
+			throws InstanceNotFoundException, InputValidationException, ProductInsufficientStockException {
 
 		User creator = userDao.find(creatorId);
 		Client client = clientDao.find(clientId);
@@ -64,6 +65,9 @@ public class NoteServiceImp implements NoteService {
 			if (amount == 0) {
 				throw new InputValidationException("amount", "It cannot be 0");
 			}
+			if (amount > product.getStock()) {
+				throw new ProductInsufficientStockException(product.getId(), amount, product.getStock());
+			}
 			Integer discount = notelineData.getDiscount();
 			if (discount < 0 || discount > 100) {
 				throw new InputValidationException("discount", "It cannot be less than 0 or greater than 100");
@@ -75,6 +79,8 @@ public class NoteServiceImp implements NoteService {
 					noteline.setComment(commentNoteline);
 				}
 			}
+
+			product.addStock(-noteline.getAmount());
 			note.addNoteline(noteline);
 			notelineDao.save(noteline);
 		}
@@ -102,23 +108,66 @@ public class NoteServiceImp implements NoteService {
 	}
 
 	@Override
-	public void modifyNoteLine(Long noteId, Long noteLineId, NotelineData notelineData)
-			throws InstanceNotFoundException, InputValidationException {
+	public Noteline addNoteLine(Long noteId, Long noteLineId, NotelineData notelineData)
+			throws InstanceNotFoundException, InputValidationException, ProductInsufficientStockException {
 
-		Noteline noteline = notelineDao.find(noteId, noteLineId);
-
-		String productReference = notelineData.getReference();
-		ValidatorProperties.validateString(productReference);
-		if (noteline.getProduct().getReference() != productReference) {
-			Product product = productDao.findByReference(notelineData.getReference());
-			noteline.setPrice(product.getPrice());
-			noteline.setProduct(product);
-		}
+		Note note = noteDao.find(noteId);
+		Product product = productDao.findByReference(notelineData.getReference());
+		Long notelineId = (long) note.getNotelines().size();
 		Integer amount = notelineData.getAmount();
 		if (amount == 0) {
 			throw new InputValidationException("amount", "It cannot be 0");
 		}
-		noteline.setAmount(amount);
+		if (amount > product.getStock()) {
+			throw new ProductInsufficientStockException(product.getId(), amount, product.getStock());
+		}
+		Integer discount = notelineData.getDiscount();
+		if (discount < 0 || discount > 100) {
+			throw new InputValidationException("discount", "It cannot be less than 0 or greater than 100");
+		}
+		Noteline noteline = new Noteline(notelineId, product.getPrice(), amount, discount, product, note);
+		String commentNoteline = notelineData.getComment();
+		if (commentNoteline != null) {
+			if (commentNoteline.trim().length() != 0) {
+				noteline.setComment(commentNoteline);
+			}
+		}
+		product.addStock(-noteline.getAmount());
+		note.addNoteline(noteline);
+		notelineDao.save(noteline);
+		return noteline;
+	}
+
+	@Override
+	public void modifyNoteLine(Long noteId, Long noteLineId, NotelineData notelineData)
+			throws InstanceNotFoundException, InputValidationException, ProductInsufficientStockException {
+
+		Noteline noteline = notelineDao.find(noteId, noteLineId);
+
+		Product originalProduct = noteline.getProduct();
+		int originalAmount = noteline.getAmount();
+		String productReference = notelineData.getReference();
+		ValidatorProperties.validateString(productReference);
+		Integer amount = notelineData.getAmount();
+		if (amount == 0) {
+			throw new InputValidationException("amount", "It cannot be 0");
+		}
+		if (originalProduct.getReference() != productReference) {
+			Product product = productDao.findByReference(notelineData.getReference());
+			if (amount > product.getStock()) {
+				throw new ProductInsufficientStockException(product.getId(), product.getStock(), amount);
+			}
+			originalProduct.addStock(originalAmount);
+			originalProduct.removeNoteline(noteline);
+			product.addNoteline(noteline);
+			noteline.setProduct(product);
+			noteline.setPrice(product.getPrice());
+			product.addStock(-amount);
+			noteline.setAmount(amount);
+		} else {
+			originalProduct.addStock(originalAmount - amount);
+		}
+
 		Integer discount = notelineData.getDiscount();
 		if (discount < 0 || discount > 100) {
 			throw new InputValidationException("discount", "It cannot be less than 0 or greater than 100");
@@ -145,9 +194,12 @@ public class NoteServiceImp implements NoteService {
 	@Override
 	public void removeNoteLine(Long noteId, Long noteLineId) throws InstanceNotFoundException {
 		Noteline noteline = notelineDao.find(noteId, noteLineId);
-		notelineDao.remove(noteId, noteLineId);
-		Note note = noteDao.find(noteId);
+		Product product = noteline.getProduct();
+		product.removeNoteline(noteline);
+		product.addStock(noteline.getAmount());
+		Note note = noteline.getNote();
 		note.removeNoteline(noteline);
+		notelineDao.remove(noteId, noteLineId);
 	}
 
 	@Override

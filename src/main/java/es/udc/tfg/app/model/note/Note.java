@@ -90,6 +90,10 @@ public class Note {
 	public void setSubtotal(Float subtotal) {
 		this.subtotal = subtotal;
 	}
+	
+	public void addSubtotal(Float subtotal) {
+		this.subtotal+=subtotal;
+	}
 
 	public Float getTaxes() {
 		return taxes;

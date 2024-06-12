@@ -21,53 +21,51 @@ import es.udc.tfg.app.model.user.User;
 @Entity
 @Table(name = "products")
 public class Product {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String reference;
-	
+
 	private String name;
-	
+
 	private String description;
-	
+
 	private String image;
-	
+
 	private String data;
-	
+
 	private Float price;
-	
+
 	private Integer discount;
-	
+
 	private Integer stock;
-	
+
 	private Calendar createDate;
-	
-	// ....... Relaciones N a 1  ......./
-	
+
+	// ....... Relaciones N a 1 ......./
+
 	@ManyToOne()
-    @JoinColumn(name = "category_id")
+	@JoinColumn(name = "category_id")
 	private Category category;
-	
-	
+
 	@ManyToOne()
-    @JoinColumn(name = "creator_id")
+	@JoinColumn(name = "creator_id")
 	private User creator;
-	
-	// ....... Relaciones 1 a N  ......./
+
+	// ....... Relaciones 1 a N ......./
 
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<Noteline> notelines = new ArrayList<>();
-	
 
 	// ....... Constructores ......./
-	
+
 	public Product() {
 	}
 
-	public Product(String reference, String name, String description, String image, String data, Float price, Integer discount,
-			Integer stock, Category category, User creator) {
+	public Product(String reference, String name, String description, String image, String data, Float price,
+			Integer discount, Integer stock, Category category, User creator) {
 		this.reference = reference;
 		this.name = name;
 		this.description = description;
@@ -80,7 +78,7 @@ public class Product {
 		this.category = category;
 		this.creator = creator;
 	}
-	
+
 	// ....... Getters & Setters ......./
 
 	public Long getId() {
@@ -90,7 +88,7 @@ public class Product {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getReference() {
 		return reference;
 	}
@@ -155,6 +153,10 @@ public class Product {
 		this.stock = stock;
 	}
 
+	public void addStock(Integer stock) {
+		this.stock += stock;
+	}
+
 	public Calendar getCreateDate() {
 		return createDate;
 	}
@@ -162,8 +164,8 @@ public class Product {
 	public void setCreateDate(Calendar createDate) {
 		this.createDate = createDate;
 	}
-	
-	// ....... Relaciones N a 1  ......./
+
+	// ....... Relaciones N a 1 ......./
 
 	public Category getCategory() {
 		return category;
@@ -180,8 +182,8 @@ public class Product {
 	public void setCreator(User creator) {
 		this.creator = creator;
 	}
-	
-	// ....... Relaciones 1 a N  ......./
+
+	// ....... Relaciones 1 a N ......./
 
 	public List<Noteline> getNotelines() {
 		return notelines;
@@ -191,4 +193,12 @@ public class Product {
 		this.notelines = notelines;
 	}
 	
+	public void addNoteline(Noteline noteline) {
+		this.notelines.add(noteline);
+	}
+	
+	public void removeNoteline(Noteline noteline) {
+		this.notelines.remove(noteline);
+	}
+
 }
