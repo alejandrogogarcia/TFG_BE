@@ -84,6 +84,7 @@ public class NoteServiceImp implements NoteService {
 			note.addNoteline(noteline);
 			notelineDao.save(noteline);
 		}
+		creator.addNote(note);
 
 		return note;
 	}
@@ -103,7 +104,6 @@ public class NoteServiceImp implements NoteService {
 			}
 		}
 		noteDao.save(note);
-	
 
 		return note;
 	}
@@ -189,7 +189,9 @@ public class NoteServiceImp implements NoteService {
 
 	@Override
 	public void removeNote(Long noteId) throws InstanceNotFoundException {
-		noteDao.remove(noteId);
+		Note note = noteDao.find(noteId);
+		note.getCreator().removeNote(note);
+		noteDao.remove(note.getId());
 	}
 
 	@Override

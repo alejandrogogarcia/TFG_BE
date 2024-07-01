@@ -218,12 +218,28 @@ public class Client {
 		this.invoices = invoices;
 	}
 
+	public void addInvoice(Invoice invoice) {
+		this.invoices.add(invoice);
+	}
+
+	public void removeInvoice(Invoice invoice) {
+		this.invoices.remove(invoice);
+	}
+
 	public List<Note> getNotes() {
 		return notes;
 	}
 
 	public void setNotes(List<Note> notes) {
 		this.notes = notes;
+	}
+	
+	public void addNote(Note note) {
+		this.notes.add(note);
+	}
+
+	public void removeNote(Note note) {
+		this.notes.remove(note);
 	}
 
 }

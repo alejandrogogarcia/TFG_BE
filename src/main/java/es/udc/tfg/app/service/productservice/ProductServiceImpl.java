@@ -58,7 +58,9 @@ public class ProductServiceImpl implements ProductService {
 
 			Product product = new Product(reference, name, description, productData.getImage(), productData.getData(),
 					price, discount, stock, category, creator);
+			
 			productDao.save(product);
+			category.addProduct(product);
 
 			return product;
 		}
@@ -117,9 +119,12 @@ public class ProductServiceImpl implements ProductService {
 		}
 
 		Long categoryId = productData.getCategoryId();
-		if (product.getCategory().getId() != categoryId) {
+		Category oldCategory = product.getCategory();
+		if (oldCategory.getId() != categoryId) {
 			Category category = categoryDao.find(categoryId);
 			product.setCategory(category);
+			oldCategory.removeProduct(product);
+			category.addProduct(product);
 		}
 
 		Long creatorId = productData.getCreatorId();

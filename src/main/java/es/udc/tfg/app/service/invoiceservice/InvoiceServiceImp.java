@@ -53,6 +53,7 @@ public class InvoiceServiceImp implements InvoiceService {
 			invoice.addNote(note);
 			invoice.setSubtotal(note.getSubtotal());
 		}
+		creator.addInvoice(invoice);
 
 		return invoice;
 	}

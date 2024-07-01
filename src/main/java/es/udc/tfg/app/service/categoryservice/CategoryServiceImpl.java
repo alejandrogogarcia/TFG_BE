@@ -21,7 +21,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	private CategoryDao categoryDao;
-	
+
 	@Autowired
 	private UserDao userDao;
 
@@ -32,6 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
 		ValidatorProperties.validateString(categoryData.getName());
 		Category category = new Category(categoryData.getName(), categoryData.getDescription(), creator);
 		categoryDao.save(category);
+		creator.addCategory(category);
 		return category;
 	}
 
@@ -44,7 +45,6 @@ public class CategoryServiceImpl implements CategoryService {
 
 		category.setName(categoryData.getName());
 		category.setDescription(categoryData.getDescription());
-		//SAVE??
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> findCategoryByName(String name){
+	public List<Category> findCategoryByName(String name) {
 		return categoryDao.findByName(name);
 	}
 

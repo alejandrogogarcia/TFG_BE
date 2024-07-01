@@ -63,7 +63,7 @@ public class ClientServiceImpl implements ClientService {
 			Client client = new Client(firstName, lastName, dni, address, city, postCode, province, email, phoneNumber,
 					creator, tax);
 			clientDao.save(client);
-
+			creator.addClient(client);
 			return client;
 		}
 
